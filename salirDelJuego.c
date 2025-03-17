@@ -4,7 +4,7 @@
 
 
 void salir(){
-    printf("Saliendo....");
+    printf("Saliendo....\n");
     exit(0);
 
 }

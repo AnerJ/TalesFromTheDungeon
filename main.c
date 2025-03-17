@@ -36,7 +36,7 @@ int main(){
             cargarPartida();
             
         } else if (opcion == 3){
-            printf("Saliendo... \n");
+            salir();
         }
         
 
