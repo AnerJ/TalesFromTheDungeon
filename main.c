@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "personaje.h"
+#include "salirDelJuego.h"
 
 
 void mostrarMenu();
@@ -61,7 +63,8 @@ void mostrarMenu(){
 
 void nuevaPartida(){
     printf("Creando nueva partida... \n");
-    //Llamara al modulo para crear una nueva partida
+    //Llamara al modulo para crear una nuevo personaje
+    crearPersonaje();
 
 }
 
