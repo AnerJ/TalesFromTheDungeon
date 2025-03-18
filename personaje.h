@@ -3,17 +3,17 @@
 
 void crearPersonaje();
 
-typedef struct Personaje
+typedef struct 
 {
-    int ataque = 0;
-    int armadura = 0;
-    int vida = 0;
-    int velocidad = 0;
-    int precision = 0;
-    int clase = 0;
-    int nivel = 0;
+    int ataque;
+    int armadura;
+    int vida;
+    int velocidad;
+    int precision;
+    int clase;
+    int nivel;
     
-};
+}Personaje ;
 
 
 

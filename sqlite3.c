@@ -89660,6 +89660,8 @@ SQLITE_PRIVATE void sqlite3AddColumn(Parse *pParse, Token *pName){
   p->nCol++;
 }
 
+
+
 /*
 ** This routine is called by the parser while in the middle of
 ** parsing a CREATE TABLE statement.  A "NOT NULL" constraint has
