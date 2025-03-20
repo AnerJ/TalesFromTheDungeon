@@ -11,29 +11,35 @@ void crearPersonaje(){
             "Creacion de Personaje\n"
             "===============\n");
 
-    printf("1. Guerrero\n"
-            "Ataque: 1d12\n"
-            "Armadura: 7\n"
-            "Vida: 20\n"
-            "Velocidad: 2\n"
-            "Precision: 5\n"
-    );
-    printf("2. Cazador\n"
-        "Ataque: 2d8\n"
-        "Armadura: 5\n"
-        "Vida: 15\n"
-        "Velocidad: 5\n"
-        "Precision: 7\n"
-    );
-    printf("3. Picaro\n"
-    "Ataque: 3d5\n"
-    "Armadura: 2\n"
-    "Vida: 13\n"
-    "Velocidad: 8\n"
-    "Precision: 9\n"
-    ); 
+    printf("\n*****************\n"
+        "| 1. Guerrero   |\n"
+        "| Ataque: 1d12  |\n"
+        "| Armadura: 7   |\n"
+        "| Vida: 20      |\n"
+        "| Velocidad: 2  |\n"
+        "| Precision: 5  |\n"
+        "*****************\n");
+         
+    printf("\n*****************\n"
+        "| 2. Cazador    |\n"
+        "| Ataque: 2d8   |\n"
+        "| Armadura: 5   |\n"
+        "| Vida: 15      |\n"
+        "| Velocidad: 5  |\n"
+        "| Precision: 7  |\n"
+        "*****************\n");
+    
+    printf("\n*****************\n"
+        "| 3. Pícaro     |\n"
+        "| Ataque: 3d5   |\n"
+        "| Armadura: 2   |\n"
+        "| Vida: 13      |\n"
+        "| Velocidad: 8  |\n"
+        "| Precision: 9  |\n"
+        "*****************\n");
+     
 
-    printf("Elige una clase: \n");
+    printf("\nElige una clase: \n");
 
 
     char promt2[10];
@@ -52,11 +58,11 @@ void crearPersonaje(){
 
         if (opcion2 == 1)
         {
-            printf("Has elegido el Guerrero\n");
+            printf("\nHas elegido el Guerrero\n");
         } else if (opcion2 == 2){
-            printf("Has elegido el Cazador\n");
+            printf("\nHas elegido el Cazador\n");
         } else if (opcion2 == 3){
-            printf("Has elegido el Picaro");
+            printf("\nHas elegido el Picaro");
         } else if (opcion2 == 4){
             salir();
         }
