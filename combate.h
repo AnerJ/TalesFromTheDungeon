@@ -1,6 +1,9 @@
 #ifndef COMBATE_H
 #define COMBATE_H
 
+
+
+
 #include "personaje.h" // Para usar la estructura del personaje
 
 typedef struct {
@@ -9,9 +12,8 @@ typedef struct {
     int armadura;
     int vida;
     int velocidad;
-    int precision;
 } Enemigo;
 
-void iniciarCombate(Personaje *jugador, Enemigo *enemigo);
+void iniciarCombate(Clase *jugador, Enemigo *enemigo);
 
 #endif

@@ -1,19 +1,18 @@
+#ifndef PERSONAJE_H
 #define PERSONAJE_H
-#ifdef PERSONAJE_H
 
-void crearPersonaje();
 
 typedef struct 
 {
     int ataque;
-    int armadura;
     int vida;
+    int armadura;
     int velocidad;
-    int precision;
-    int clase;
-    int nivel;
-    
-}Personaje ;
+} Clase;
+
+void crearPersonaje();
+
+
 
 
 
