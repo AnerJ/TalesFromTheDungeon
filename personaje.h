@@ -11,6 +11,6 @@ typedef struct
     int velocidad;
 } Clase;
 
-void crearPersonaje();
+Clase* crearPersonaje();
 
 #endif

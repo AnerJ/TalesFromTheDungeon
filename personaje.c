@@ -7,7 +7,9 @@
 
 
 
-void crearPersonaje(){
+Clase * crearPersonaje(){
+    Clase * personaje = NULL;
+    personaje = (Clase*) malloc (sizeof(Clase));
     printf("\n===============\n"
             "Creacion de Personaje\n"
             "===============\n");
@@ -60,18 +62,24 @@ void crearPersonaje(){
         if (opcion2 == 1)
         {
             printf("\nHas elegido el Guerrero\n");
-            Clase guerrero;
-            cargarClase(opcion2, &guerrero);
-            printf("Vida %i, Armadura %i, Ataque %i, Veces %i\n", guerrero.vida, guerrero.armadura, guerrero.ataque, guerrero.veces);
+            cargarClase(opcion2, &personaje);
+            printf("Vida %i, Armadura %i, Ataque %i, Veces %i\n", personaje->vida, personaje->armadura, personaje->ataque, personaje->veces);
+
         } else if (opcion2 == 2){
             printf("\nHas elegido el Cazador\n");
+            cargarClase(opcion2, &personaje);
+
         } else if (opcion2 == 3){
             printf("\nHas elegido el Picaro");
+            cargarClase(opcion2, &personaje);
+
         } else if (opcion2 == 4){
             salir();
         }
         
 
+
+        return personaje;
     
     
 
