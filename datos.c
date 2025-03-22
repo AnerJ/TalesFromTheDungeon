@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "sqlite3.h"
 #include "datos.h"
+#include "personaje.h"
 
 static sqlite3 *db = NULL;
 
@@ -225,5 +226,39 @@ int insertarEnemigos() {
 
     return 0; // Éxito
 }
+
+
+int cargarClase(int idClase, Clase *clase) {
+    const char *sql = "SELECT E.vida, E.armadura, E.velocidad, E.veces, E.ataque "
+                      "FROM Clases AS C "
+                      "INNER JOIN Estadisticas AS E ON C.idEstadistica = E.id "
+                      "WHERE C.id = ?;";
+    sqlite3_stmt *stmt;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if(rc != SQLITE_OK) {
+        fprintf(stderr, "Error preparando consulta: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    sqlite3_bind_int(stmt, 1, idClase);
+
+    rc = sqlite3_step(stmt);
+    if(rc == SQLITE_ROW) {
+        clase->vida = sqlite3_column_int(stmt, 0);
+        clase->armadura = sqlite3_column_int(stmt, 1);
+        clase->velocidad = sqlite3_column_int(stmt, 2);
+        clase->veces = sqlite3_column_int(stmt, 3);
+        clase->ataque = sqlite3_column_int(stmt, 4);
+    } else {
+        fprintf(stderr, "Clase no encontrada\n");
+        sqlite3_finalize(stmt);
+        return rc;
+    }
+
+    sqlite3_finalize(stmt);
+    return SQLITE_OK;
+}
+
+
 
 

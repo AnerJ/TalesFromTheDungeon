@@ -14,12 +14,15 @@ void inciarPartida(Clase *p);
 
 
 int main(){
-    char promt[10];
-    int opcion;
+    //Inicializacion de la base de datos
     inicializarBD();
     insertarClases();
     insertarEnemigos();
 
+
+
+    char promt[10];
+    int opcion;
     do {
         mostrarMenu();
         printf("Selecciona una opcion introduciendo el numero: \n");
@@ -87,7 +90,7 @@ void inciarPartida(Clase *p){
     char txt[10];
     int accion;
     printf("Te adentras a la mazmorra...\n");
-    cargarEnemigos(); 
+     
     while (p->vida <= 0){
 
         mostrarMapa(pos);
@@ -104,7 +107,7 @@ void inciarPartida(Clase *p){
         //Pasar el valor a entero
         sscanf(txt, "%d", &accion );
         accionesM(accion);
-        Enemigo e;
+        
         //iniciarCombate( &p, &e);
         
 

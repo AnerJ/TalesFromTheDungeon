@@ -13,10 +13,4 @@ typedef struct
 
 void crearPersonaje();
 
-
-
-
-
-
-
 #endif

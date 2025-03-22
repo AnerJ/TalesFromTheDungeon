@@ -15,11 +15,6 @@ void mostrarMapa(int pos){
     printf("Estas en la sala %i\n", pos);
 }
 
-void cargarEnemigos(){
-    //Aqui es donde se cargaran los enemigos de la mazmorra, es decir se crearan los enemigos metiendole las estadisticas de la base de datos
-    //Solo hay 4 enemigos (3 enemigos y jefe final) y apareceran en orden
-    //Esto deberia de returnear una lista de enemigos y depende de la posicion del jugador salga uno u otro
-}
 
 
 void accionesM(int accion){

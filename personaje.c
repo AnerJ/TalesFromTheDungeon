@@ -3,6 +3,7 @@
 #include <string.h>
 #include "personaje.h"
 #include "salirDelJuego.h"
+#include "datos.h"
 
 
 
@@ -59,6 +60,9 @@ void crearPersonaje(){
         if (opcion2 == 1)
         {
             printf("\nHas elegido el Guerrero\n");
+            Clase guerrero;
+            cargarClase(opcion2, &guerrero);
+            printf("Vida %i, Armadura %i, Ataque %i, Veces %i\n", guerrero.vida, guerrero.armadura, guerrero.ataque, guerrero.veces);
         } else if (opcion2 == 2){
             printf("\nHas elegido el Cazador\n");
         } else if (opcion2 == 3){
