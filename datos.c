@@ -14,76 +14,22 @@ int inicializarBD() {
     }
     
     char *errMsg = NULL;
-    
-    // Tabla Jugador
-    const char *sqlJugador = "CREATE TABLE IF NOT EXISTS Jugador ("
-                             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                             "nombre TEXT NOT NULL);";
-    rc = sqlite3_exec(db, sqlJugador, 0, 0, &errMsg);
-    if(rc != SQLITE_OK) {
-        fprintf(stderr, "Error creando tabla Jugador: %s\n", errMsg);
-        sqlite3_free(errMsg);
-        return rc;
-    }
-    
-    // Tabla Clases
-    const char *sqlClases = "CREATE TABLE IF NOT EXISTS Clases ("
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                            "nombre TEXT NOT NULL, "
-                            "idJugador INTEGER, "
-                            "FOREIGN KEY (idJugador) REFERENCES Jugador(id));";
-    rc = sqlite3_exec(db, sqlClases, 0, 0, &errMsg);
-    if(rc != SQLITE_OK) {
-        fprintf(stderr, "Error creando tabla Clases: %s\n", errMsg);
-        sqlite3_free(errMsg);
-        return rc;
-    }
-    
-    // Tabla Estadisticas 
+
+    // Tabla Estadísticas (Cada estadística se conecta con Ataques)
     const char *sqlEstadisticas = "CREATE TABLE IF NOT EXISTS Estadisticas ("
                                   "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                                   "vida INTEGER, "
                                   "armadura INTEGER, "
                                   "velocidad INTEGER, "
-                                  "ataque TEXT, "      // Ejemplo: "1d12"
-                                  "idClase INTEGER, "
-                                  "FOREIGN KEY (idClase) REFERENCES Clases(id));";
+                                  "idAtaque INTEGER, "
+                                  "FOREIGN KEY (idAtaque) REFERENCES Ataques(id));";
     rc = sqlite3_exec(db, sqlEstadisticas, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Error creando tabla Estadisticas: %s\n", errMsg);
         sqlite3_free(errMsg);
         return rc;
     }
-    
-    // Tabla Enemigos
-    const char *sqlEnemigos = "CREATE TABLE IF NOT EXISTS Enemigos ("
-                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                              "nombre TEXT NOT NULL, "
-                              "vida INTEGER, "
-                              "armadura INTEGER, "
-                              "velocidad INTEGER, "
-                              "precision INTEGER);";
-    rc = sqlite3_exec(db, sqlEnemigos, 0, 0, &errMsg);
-    if(rc != SQLITE_OK) {
-        fprintf(stderr, "Error creando tabla Enemigos: %s\n", errMsg);
-        sqlite3_free(errMsg);
-        return rc;
-    }
-    
-    // Tabla de relación entre Estadisticas y Enemigos 
-    const char *sqlEstadisticasEnemigos = "CREATE TABLE IF NOT EXISTS Estadisticas_Enemigos ("
-                                          "idEstadistica INTEGER, "
-                                          "idEnemigo INTEGER, "
-                                          "PRIMARY KEY (idEstadistica, idEnemigo), "
-                                          "FOREIGN KEY (idEstadistica) REFERENCES Estadisticas(id), "
-                                          "FOREIGN KEY (idEnemigo) REFERENCES Enemigos(id));";
-    rc = sqlite3_exec(db, sqlEstadisticasEnemigos, 0, 0, &errMsg);
-    if(rc != SQLITE_OK) {
-        fprintf(stderr, "Error creando tabla Estadisticas_Enemigos: %s\n", errMsg);
-        sqlite3_free(errMsg);
-        return rc;
-    }
-    
+
     // Tabla Ataques
     const char *sqlAtaques = "CREATE TABLE IF NOT EXISTS Ataques ("
                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -95,44 +41,52 @@ int inicializarBD() {
         sqlite3_free(errMsg);
         return rc;
     }
-    
-    // Tabla de relación entre Estadisticas y Ataques
-    const char *sqlEstadisticasAtaques = "CREATE TABLE IF NOT EXISTS Estadisticas_Ataques ("
-                                         "idEstadistica INTEGER, "
-                                         "idAtaque INTEGER, "
-                                         "PRIMARY KEY (idEstadistica, idAtaque), "
-                                         "FOREIGN KEY (idEstadistica) REFERENCES Estadisticas(id), "
-                                         "FOREIGN KEY (idAtaque) REFERENCES Ataques(id));";
-    rc = sqlite3_exec(db, sqlEstadisticasAtaques, 0, 0, &errMsg);
+
+    // Tabla Clases (Cada clase se asocia a una Estadística)
+    const char *sqlClases = "CREATE TABLE IF NOT EXISTS Clases ("
+                            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                            "nombre TEXT NOT NULL, "
+                            "idEstadistica INTEGER, "
+                            "FOREIGN KEY (idEstadistica) REFERENCES Estadisticas(id));";
+    rc = sqlite3_exec(db, sqlClases, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
-        fprintf(stderr, "Error creando tabla Estadisticas_Ataques: %s\n", errMsg);
+        fprintf(stderr, "Error creando tabla Clases: %s\n", errMsg);
         sqlite3_free(errMsg);
         return rc;
     }
-    
-    // Relación muchos a muchos entre Enemigos y Ataques
-    const char *sqlEnemigosAtaques = "CREATE TABLE IF NOT EXISTS Enemigos_Ataques ("
-                                     "idEnemigo INTEGER, "
-                                     "idAtaque INTEGER, "
-                                     "PRIMARY KEY (idEnemigo, idAtaque), "
-                                     "FOREIGN KEY (idEnemigo) REFERENCES Enemigos(id), "
-                                     "FOREIGN KEY (idAtaque) REFERENCES Ataques(id));";
-    rc = sqlite3_exec(db, sqlEnemigosAtaques, 0, 0, &errMsg);
+
+    // Tabla Jugador (Ahora cada jugador está asociado a una Clase)
+    const char *sqlJugador = "CREATE TABLE IF NOT EXISTS Jugador ("
+                             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                             "nombre TEXT NOT NULL, "
+                             "idClase INTEGER, "
+                             "FOREIGN KEY (idClase) REFERENCES Clases(id));";
+    rc = sqlite3_exec(db, sqlJugador, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
-        fprintf(stderr, "Error creando tabla Enemigos_Ataques: %s\n", errMsg);
+        fprintf(stderr, "Error creando tabla Jugador: %s\n", errMsg);
         sqlite3_free(errMsg);
         return rc;
     }
-    
-    // Tabla Partidas 
+
+    // Tabla Enemigos (Cada enemigo ahora tiene su propia estadística)
+    const char *sqlEnemigos = "CREATE TABLE IF NOT EXISTS Enemigos ("
+                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              "nombre TEXT NOT NULL, "
+                              "idEstadistica INTEGER, "
+                              "FOREIGN KEY (idEstadistica) REFERENCES Estadisticas(id));";
+    rc = sqlite3_exec(db, sqlEnemigos, 0, 0, &errMsg);
+    if(rc != SQLITE_OK) {
+        fprintf(stderr, "Error creando tabla Enemigos: %s\n", errMsg);
+        sqlite3_free(errMsg);
+        return rc;
+    }
+
+    // Tabla Partidas
     const char *sqlPartidas = "CREATE TABLE IF NOT EXISTS Partidas ("
                               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                               "idJugador INTEGER, "
                               "datos TEXT, "
-                              "FOREIGN KEY (idJugador) REFERENCES Jugador(id));"
-                              "FOREIGN KEY (idEnemigo) REFERENCES Enemigos(id));"
-                              "FOREIGN KEY (idEstadistica) REFERENCES Estadisticas(id));";
-
+                              "FOREIGN KEY (idJugador) REFERENCES Jugador(id));";
     rc = sqlite3_exec(db, sqlPartidas, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Error creando tabla Partidas: %s\n", errMsg);

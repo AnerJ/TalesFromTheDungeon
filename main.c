@@ -3,16 +3,20 @@
 #include <string.h>
 #include "personaje.h"
 #include "salirDelJuego.h"
+#include "combate.h"
+#include "datos.h"
 
 
 void mostrarMenu();
 void nuevaPartida();
 void cargarPartida();
+void inciarPartida();
 
 
 int main(){
     char promt[10];
     int opcion;
+    inicializarBD();
 
     do {
         mostrarMenu();
@@ -30,10 +34,12 @@ int main(){
 
         if (opcion == 1){
             nuevaPartida();
+            break;
             
 
         } else if (opcion == 2){
             cargarPartida();
+            break;
             
         } else if (opcion == 3){
             salir();
@@ -71,6 +77,14 @@ void nuevaPartida(){
 void cargarPartida(){
     printf("Cargando partida... \n");
     //Llamara al modulo para cargar una partida
+}
+
+
+void inciarPartida(){
+    printf("Te adentras a la mazmorra...\n");
+
+
+
 }
 
 
