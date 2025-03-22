@@ -5,6 +5,7 @@
 typedef struct 
 {
     int ataque;
+    int veces;
     int vida;
     int armadura;
     int velocidad;

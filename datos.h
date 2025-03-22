@@ -5,5 +5,7 @@
 int inicializarBD();
 void cerrarBD();
 int guardarPartida(int idJugador, const char *datos);
+int insertarClases();
+int insertarEnemigos();
 
 #endif // DATOS_H

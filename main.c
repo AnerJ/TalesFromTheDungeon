@@ -17,6 +17,8 @@ int main(){
     char promt[10];
     int opcion;
     inicializarBD();
+    insertarClases();
+    insertarEnemigos();
 
     do {
         mostrarMenu();
@@ -85,7 +87,7 @@ void inciarPartida(Clase *p){
     char txt[10];
     int accion;
     printf("Te adentras a la mazmorra...\n");
-    cargarEnemigos();
+    cargarEnemigos(); 
     while (p->vida <= 0){
 
         mostrarMapa(pos);
@@ -103,7 +105,7 @@ void inciarPartida(Clase *p){
         sscanf(txt, "%d", &accion );
         accionesM(accion);
         Enemigo e;
-        iniciarCombate( &p, &e);
+        //iniciarCombate( &p, &e);
         
 
         

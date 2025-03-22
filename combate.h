@@ -9,6 +9,7 @@
 typedef struct {
     char nombre[20];
     int ataque;
+    int veces;
     int armadura;
     int vida;
     int velocidad;
