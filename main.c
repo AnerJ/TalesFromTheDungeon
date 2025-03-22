@@ -5,12 +5,12 @@
 #include "salirDelJuego.h"
 #include "combate.h"
 #include "datos.h"
-
+#include "mazmorra.h"
 
 void mostrarMenu();
 void nuevaPartida();
 void cargarPartida();
-void inciarPartida();
+void inciarPartida(Clase *p);
 
 
 int main(){
@@ -80,8 +80,39 @@ void cargarPartida(){
 }
 
 
-void inciarPartida(){
+void inciarPartida(Clase *p){
+    int pos = 1;
+    char txt[10];
+    int accion;
     printf("Te adentras a la mazmorra...\n");
+    cargarEnemigos();
+    while (p->vida <= 0){
+
+        mostrarMapa(pos);
+        printf("Cual es tu siguiente accion: \n"
+                "1. Avanzar\n"
+                "2. Huir\n");
+        fgets(txt, 10, stdin);
+
+        //Eliminar el salto de linea
+        if( txt[strlen(txt)-1] == '\n'){
+            txt[strlen(txt)-1] = '\0';
+        }
+
+        //Pasar el valor a entero
+        sscanf(txt, "%d", &accion );
+        accionesM(accion);
+        Enemigo e;
+        iniciarCombate( &p, &e);
+        
+
+        
+
+
+
+    }
+
+
 
 
 

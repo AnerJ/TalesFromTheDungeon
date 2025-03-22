@@ -22,7 +22,7 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
     // Bucle del combate
     while (jugador->vida > 0 && enemigo->vida > 0) {
         printf("\nTurno del jugador\n");
-        printf("1. Atacar\n2. Defender\n3. Esquivar\n");
+        printf("1. Atacar\n2. Defender\n");
         int opcion;
         char c[10];
         fgets(c, 10, stdin);
@@ -41,6 +41,13 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
             if (danyo < 0) danyo = 0;
             enemigo->vida -= danyo;
             printf("Has hecho %d de daño al %s!\n", danyo, enemigo->nombre);
+        }
+        else if (opcion == 2){ //Defensa
+            int danyoRecibido = (jugador->armadura + 5) - enemigo->ataque;
+            if (danyoRecibido < 0) danyoRecibido = 0;
+            jugador->vida -= danyoRecibido;
+            printf("Has bloqueado %d y has recibido %d", jugador->armadura + 5, danyoRecibido);
+
         }
 
         if (enemigo->vida <= 0) {

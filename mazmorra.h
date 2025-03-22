@@ -5,7 +5,9 @@
 
 
 
-
+void mostrarMapa(int pos);
+void cargarEnemigos();
+void accionesM(int accion);
 
 
 
