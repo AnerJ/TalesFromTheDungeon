@@ -4,6 +4,7 @@
 #include "sqlite3.h"
 #include "datos.h"
 #include "personaje.h"
+#include "combate.h"
 
 static sqlite3 *db = NULL;
 
@@ -256,6 +257,58 @@ int cargarClase(int idClase, Clase *clase) {
     }
 
     sqlite3_finalize(stmt);
+    return SQLITE_OK;
+}
+
+int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT nombre, ataque, veces, vida, armadura, velocidad FROM Enemigos WHERE id BETWEEN 4 AND 7;";
+    int rc;
+
+    // Verificar que el array de enemigos no sea NULL
+    if (enemigos == NULL) {
+        fprintf(stderr, "Error: El array de enemigos es NULL.\n");
+        return SQLITE_ERROR;
+    }
+
+    // Verificar que la cantidad de enemigos sea válida
+    if (cantidadEnemigos <= 0) {
+        fprintf(stderr, "Error: La cantidad de enemigos debe ser mayor que 0.\n");
+        return SQLITE_ERROR;
+    }
+
+    // Preparar la consulta
+    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error preparando la consulta: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    // Ejecutar la consulta y cargar los datos de los enemigos
+    int i = 0;
+    while (sqlite3_step(stmt) == SQLITE_ROW && i < cantidadEnemigos) {
+        // Obtener los valores de cada columna
+        const char *nombre = (const char*)sqlite3_column_text(stmt, 0);
+        enemigos[i].ataque = sqlite3_column_int(stmt, 1);
+        enemigos[i].veces = sqlite3_column_int(stmt, 2);
+        enemigos[i].vida = sqlite3_column_int(stmt, 3);
+        enemigos[i].armadura = sqlite3_column_int(stmt, 4);
+        enemigos[i].velocidad = sqlite3_column_int(stmt, 5);
+
+        // Copiar el nombre de manera segura
+        snprintf(enemigos[i].nombre, sizeof(enemigos[i].nombre), "%s", nombre);
+
+        i++;
+    }
+
+    // Finalizar el statement
+    sqlite3_finalize(stmt);
+
+    // Verificar si se cargaron todos los enemigos solicitados
+    if (i < cantidadEnemigos) {
+        fprintf(stderr, "Advertencia: Solo se encontraron %d enemigos (se solicitaron %d).\n", i, cantidadEnemigos);
+    }
+
     return SQLITE_OK;
 }
 

@@ -9,5 +9,6 @@ int guardarPartida(int idJugador, const char *datos);
 int insertarClases();
 int insertarEnemigos();
 int cargarClase(int idClase, Clase *clase);
+int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos);
 
 #endif // DATOS_H

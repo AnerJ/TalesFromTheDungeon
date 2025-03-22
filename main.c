@@ -19,6 +19,9 @@ int main(){
     insertarClases();
     insertarEnemigos();
 
+    
+
+
 
 
     char promt[10];
@@ -74,8 +77,13 @@ void mostrarMenu(){
 
 void nuevaPartida(){
     printf("Creando nueva partida... \n");
-    //Llamara al modulo para crear una nuevo personaje
-    crearPersonaje();
+    //Llamara al modulo para crear una nuevo personajeç
+    Clase *clase = crearPersonaje();
+    if (clase == NULL){
+        printf("Error al crear personaje\n");
+    }
+    inciarPartida(clase);
+
 
 }
 
@@ -86,6 +94,12 @@ void cargarPartida(){
 
 
 void inciarPartida(Clase *p){
+    //Inicializacion de los enemigos
+    int cantidadDeEnemigos = 4;
+    Enemigo enemigos[4];
+    cargarEnemigos(enemigos, cantidadDeEnemigos);
+
+
     int pos = 1;
     char txt[10];
     int accion;
@@ -110,7 +124,8 @@ void inciarPartida(Clase *p){
         
         //iniciarCombate( &p, &e);
         
-
+        
+        free(p);
         
 
 

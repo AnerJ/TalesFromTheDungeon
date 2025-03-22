@@ -33,7 +33,7 @@ Clase * crearPersonaje(){
         "*****************\n");
     
     printf("\n*****************\n"
-        "| 3. Pícaro     |\n"
+        "| 3. Picaro     |\n"
         "| Ataque: 3d5   |\n"
         "| Armadura: 2   |\n"
         "| Vida: 13      |\n"
@@ -62,16 +62,16 @@ Clase * crearPersonaje(){
         if (opcion2 == 1)
         {
             printf("\nHas elegido el Guerrero\n");
-            cargarClase(opcion2, &personaje);
+            cargarClase(opcion2, personaje);
             printf("Vida %i, Armadura %i, Ataque %i, Veces %i\n", personaje->vida, personaje->armadura, personaje->ataque, personaje->veces);
 
         } else if (opcion2 == 2){
             printf("\nHas elegido el Cazador\n");
-            cargarClase(opcion2, &personaje);
+            cargarClase(opcion2, personaje);
 
         } else if (opcion2 == 3){
             printf("\nHas elegido el Picaro");
-            cargarClase(opcion2, &personaje);
+            cargarClase(opcion2, personaje);
 
         } else if (opcion2 == 4){
             salir();
