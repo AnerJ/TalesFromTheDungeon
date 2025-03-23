@@ -38,11 +38,11 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
         fprintf(logFile, "\n*****************\n");
 
         //Enseñamos las estadisticas
-        printf("Tus estadisticas                Estadisticas del Enemigo\n "
+        printf(" Tus estadisticas               Estadisticas del Enemigo\n "
             "Vida: %d                       Vida: %d\n"
-            "Ataque: %dd%d                  Ataque: %dd%d\n"
-            "Armadura: %d                   Armadura: %d\n"
-            "Velocidad: %d                  Velocidad: %d",
+            " Ataque: %dd%d                   Ataque: %dd%d\n"
+            " Armadura: %d                    Armadura: %d\n"
+            " Velocidad: %d                   Velocidad: %d",
             jugador->vida, enemigo->vida, jugador->veces, jugador->ataque, enemigo->veces, enemigo->ataque, jugador->armadura, enemigo->armadura,
             jugador->velocidad, enemigo->velocidad
         );

@@ -5,7 +5,7 @@
 
 
 
-void mostrarMapa(int pos);
+void mostrarMapa( const char * rutaFichero,int pos);
 void accionesM(int accion);
 
 

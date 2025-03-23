@@ -9,9 +9,22 @@
 
 
 
-void mostrarMapa(int pos){
+void mostrarMapa(const char *nombreFichero, int pos){
     //Aqui se cargara desde un fichero de texto la estructura de la mazmorra y se mostrara en la partida
     //Recibe un integer para saber en que posicion de la mazmorra esta
+    FILE *fichero = fopen(nombreFichero, "r");  // Abrir el fichero en modo lectura
+    if (!fichero) {
+        printf("Error: No se pudo abrir el fichero %s.\n", nombreFichero);
+        return;
+    }
+
+    char linea[256];  // Buffer para almacenar cada línea del fichero
+    while (fgets(linea, sizeof(linea), fichero)) {
+        printf("%s", linea);  // Mostrar la línea en la terminal
+    }
+
+    fclose(fichero);
+
     printf("Estas en la sala %i\n", pos);
 }
 

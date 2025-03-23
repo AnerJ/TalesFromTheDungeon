@@ -100,7 +100,8 @@ void inciarPartida(Clase *p){
      
     while (p->vida >= 0){
 
-        mostrarMapa(pos + 1);
+        mostrarMapa("ficheros/mazmorraMapa.txt", pos + 1);
+
         printf("Cual es tu siguiente accion: \n"
                 "1. Avanzar\n"
                 "2. Huir\n");
