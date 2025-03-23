@@ -38,8 +38,6 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
         printf("\n*****************\n");
         sleep(1);
 
-
-
         printf("\nTurno del jugador\n");
         sleep(2);
         printf("1. Atacar\n2. Defender\n");
@@ -60,11 +58,13 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
             int danyo = lanzar_dado(jugador->veces, jugador->ataque) - enemigo->armadura;
             if (danyo < 0) danyo = 0;
             enemigo->vida -= danyo;
+            system("cls");
             printf("Has hecho %d de daño al %s!\n", danyo, enemigo->nombre);
             sleep(1);
         }
         else if (opcion == 2){ //Defensa
             jugador->armadura += 5;
+            system("cls");
             printf("Vas a bloquear el siguiente ataque con %d de armadura", jugador->armadura);
             sleep(1);
 

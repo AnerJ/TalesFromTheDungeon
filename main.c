@@ -16,7 +16,7 @@ void cargarPartida();
 void inciarPartida(Clase *p);
 
 int main(){
-    // Configurar la consola en UTF-8 para poder mostrar la 'ñ', la '¡' y las
+    // Configurar la consola en UTF-8 para poder mostrar la 'ñ', la '¡' y las tildes
     SetConsoleOutputCP(CP_UTF8);  // Configurar la consola en UTF-8
     //Inicializacion de la base de datos
     inicializarBD();
