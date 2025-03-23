@@ -262,7 +262,10 @@ int cargarClase(int idClase, Clase *clase) {
 
 int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos) {
     sqlite3_stmt *stmt;
-    const char *sql = "SELECT nombre, ataque, veces, vida, armadura, velocidad FROM Enemigos WHERE id BETWEEN 4 AND 7;";
+    const char *sql = "SELECT E.nombre, ES.ataque, ES.veces, ES.vida, ES.armadura, ES.velocidad "
+                      "FROM Enemigos AS E "
+                      "INNER JOIN Estadisticas AS ES ON E.idEstadistica = ES.id "
+                      "WHERE E.id BETWEEN 4 AND 7;";
     int rc;
 
     // Verificar que el array de enemigos no sea NULL

@@ -3,6 +3,7 @@
 #define DATOS_H
 
 #include "personaje.h"
+#include "combate.h"
 int inicializarBD();
 void cerrarBD();
 int guardarPartida(int idJugador, const char *datos);

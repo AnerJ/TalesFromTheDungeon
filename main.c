@@ -100,14 +100,15 @@ void inciarPartida(Clase *p){
     cargarEnemigos(enemigos, cantidadDeEnemigos);
 
 
-    int pos = 1;
+    int pos = 0;
     char txt[10];
     int accion;
+    printf ("La vida de tu personaje: %d", p->vida);
     printf("Te adentras a la mazmorra...\n");
      
-    while (p->vida <= 0){
+    while (p->vida >= 0){
 
-        mostrarMapa(pos);
+        mostrarMapa(pos + 1);
         printf("Cual es tu siguiente accion: \n"
                 "1. Avanzar\n"
                 "2. Huir\n");
@@ -121,16 +122,20 @@ void inciarPartida(Clase *p){
         //Pasar el valor a entero
         sscanf(txt, "%d", &accion );
         accionesM(accion);
+        Enemigo e = enemigos[pos];
+        iniciarCombate( p, &e);
         
-        //iniciarCombate( &p, &e);
+        if (pos + 1 == 4){
+            printf("El siguiente enemigo sera el jefe final de esta aventura\n");
+        }
         
-        
-        free(p);
+        pos ++;
         
 
 
 
     }
+    free(p);
 
 
 

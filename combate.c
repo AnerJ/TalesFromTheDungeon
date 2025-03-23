@@ -4,12 +4,13 @@
 #include <time.h>
 #include "combate.h"
 #include "personaje.h"
+#include "salirDelJuego.h"
 
 // Simulación de una tirada de dados
-int lanzar_dado(int cantidad, int caras) {
+int lanzar_dado(int veces, int danyo) {
     int resultado = 0;
-    for (int i = 0; i < cantidad; i++) {
-        resultado += (rand() % caras) + 1;
+    for (int i = 0; i < veces; i++) {
+        resultado += (rand() % danyo) + 1;
     }
     return resultado;
 }
@@ -21,6 +22,22 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
 
     // Bucle del combate
     while (jugador->vida > 0 && enemigo->vida > 0) {
+
+        printf("\n*****************\n");
+        //Enseñamos las estadisticas
+        printf("Tus estadisticas                Estadisticas del Enemigo\n "
+            "Vida: %d                       Vida: %d\n"
+            "Ataque: %dd%d                  Ataque: %dd%d\n"
+            "Armadura: %d                   Armadura: %d\n"
+            "Velocidad: %d                  Velocidad: %d",
+            jugador->vida, enemigo->vida, jugador->veces, jugador->ataque, enemigo->veces, enemigo->ataque, jugador->armadura, enemigo->armadura,
+            jugador->velocidad, enemigo->velocidad
+    
+            );
+        printf("\n*****************\n");
+
+
+
         printf("\nTurno del jugador\n");
         printf("1. Atacar\n2. Defender\n");
         int opcion;
@@ -37,16 +54,14 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
         
 
         if (opcion == 1) { // Ataque
-            int danyo = lanzar_dado(1, 12) - enemigo->armadura;
+            int danyo = lanzar_dado(jugador->veces, jugador->ataque) - enemigo->armadura;
             if (danyo < 0) danyo = 0;
             enemigo->vida -= danyo;
             printf("Has hecho %d de daño al %s!\n", danyo, enemigo->nombre);
         }
         else if (opcion == 2){ //Defensa
-            int danyoRecibido = (jugador->armadura + 5) - enemigo->ataque;
-            if (danyoRecibido < 0) danyoRecibido = 0;
-            jugador->vida -= danyoRecibido;
-            printf("Has bloqueado %d y has recibido %d", jugador->armadura + 5, danyoRecibido);
+            jugador->armadura += 5;
+            printf("Vas a bloquear el siguiente ataque con %d de armadura", jugador->armadura);
 
         }
 
@@ -57,10 +72,13 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
 
         // Turno del enemigo
         printf("\nTurno del %s\n", enemigo->nombre);
-        int danyo_enemigo = lanzar_dado(1, 10) - jugador->armadura;
+        int danyo_enemigo = lanzar_dado(enemigo->veces, enemigo->ataque) - jugador->armadura;
         if (danyo_enemigo < 0) danyo_enemigo = 0;
         jugador->vida -= danyo_enemigo;
         printf("El %s te ha hecho %d de daño.\n", enemigo->nombre, danyo_enemigo);
+        if (opcion == 2){
+            jugador->armadura -= 5;
+        }
 
         if (jugador->vida <= 0) {
             printf("¡Has sido derrotado!\n");
