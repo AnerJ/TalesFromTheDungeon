@@ -1,0 +1,69 @@
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+*****************
+Tu                            Enemigo
+ Vida: 20                       Vida: 10
+Ataque: 1d12                  Ataque: 1d4
+Armadura: 7                   Armadura: 5
+Velocidad: 2                  Velocidad: 1
+*****************
+
+Turno del jugador
+Has hecho 1 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 20                       Vida: 9
+Ataque: 1d12                  Ataque: 1d4
+Armadura: 7                   Armadura: 5
+Velocidad: 2                  Velocidad: 1
+*****************
+
+Turno del jugador
+Has hecho 6 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 20                       Vida: 3
+Ataque: 1d12                  Ataque: 1d4
+Armadura: 7                   Armadura: 5
+Velocidad: 2                  Velocidad: 1
+*****************
+
+Turno del jugador
+Has hecho 1 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 20                       Vida: 2
+Ataque: 1d12                  Ataque: 1d4
+Armadura: 7                   Armadura: 5
+Velocidad: 2                  Velocidad: 1
+*****************
+
+Turno del jugador
+Has hecho 2 de daño al Esqueleto!
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
