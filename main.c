@@ -98,6 +98,9 @@ void inciarPartida(Clase *p){
     int cantidadDeEnemigos = 4;
     Enemigo enemigos[4];
     cargarEnemigos(enemigos, cantidadDeEnemigos);
+    for (int i = 0; i< 4; i++){
+        printf("Enemigo %d: %s\n", i , enemigos[i].nombre);
+    }
 
 
     int pos = 0;
@@ -128,8 +131,17 @@ void inciarPartida(Clase *p){
         if (pos + 1 == 4){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");
         }
+
+        
         
         pos ++;
+
+        if (pos == 4){
+            printf("Enhorabuena has terminado tu aventura");
+            free(p);
+            salir();
+            break;
+        }
         
 
 

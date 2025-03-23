@@ -294,7 +294,7 @@ int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos) {
     const char *sql = "SELECT E.nombre, ES.ataque, ES.veces, ES.vida, ES.armadura, ES.velocidad "
                       "FROM Enemigos AS E "
                       "INNER JOIN Estadisticas AS ES ON E.idEstadistica = ES.id "
-                      "WHERE E.id BETWEEN 4 AND 7;";
+                      "WHERE E.id BETWEEN 1 AND 4;";
     int rc;
 
     // Verificar que el array de enemigos no sea NULL
@@ -343,7 +343,6 @@ int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos) {
 
     return SQLITE_OK;
 }
-
 
 
 
