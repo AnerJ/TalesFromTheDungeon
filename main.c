@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <windows.h>
 #include "personaje.h"
 #include "salirDelJuego.h"
 #include "combate.h"
@@ -9,23 +10,18 @@
 #include "mazmorra.h"
 #include "progresion.h"
 
-
 void mostrarMenu();
 void nuevaPartida();
 void cargarPartida();
 void inciarPartida(Clase *p);
 
-
 int main(){
+    // Configurar la consola en UTF-8 para poder mostrar la 'ñ', la '¡' y las
+    SetConsoleOutputCP(CP_UTF8);  // Configurar la consola en UTF-8
     //Inicializacion de la base de datos
     inicializarBD();
     insertarClases();
     insertarEnemigos();
-
-    
-
-
-
 
     char promt[10];
     int opcion;
@@ -42,12 +38,11 @@ int main(){
         //Pasar el valor a entero
         sscanf(promt, "%d", &opcion );
 
-
         if (opcion == 1){
+            system("cls");
             nuevaPartida();
             break;
             
-
         } else if (opcion == 2){
             cargarPartida();
             break;
@@ -55,15 +50,8 @@ int main(){
         } else if (opcion == 3){
             salir();
         }
-        
-
-        
 
     } while (opcion != 3);
-
-
-
-
 
     return 0;
 }
@@ -71,15 +59,17 @@ int main(){
 void mostrarMenu(){
     printf("\n=================================\n");
     printf("TALES FROM THE DUNGEON\n");
-    printf("=================================\n");
+    printf("=================================\n\n");
     sleep(3);
     printf("1. Nueva Partida\n");
     printf("2. Cargar Partida\n");
-    printf("3. Salir\n");
+    printf("3. Salir\n\n");
 }
 
-
 void nuevaPartida(){
+    printf("\n=================================\n");
+    printf("TALES FROM THE DUNGEON\n");
+    printf("=================================\n\n");
     printf("Creando nueva partida... \n");
     sleep(1);
     //Llamara al modulo para crear una nuevo personaje
@@ -88,8 +78,6 @@ void nuevaPartida(){
         printf("Error al crear personaje\n");
     }
     inciarPartida(clase);
-
-
 }
 
 void cargarPartida(){
@@ -97,14 +85,11 @@ void cargarPartida(){
     //Llamara al modulo para cargar una partida
 }
 
-
 void inciarPartida(Clase *p){
     //Inicializacion de los enemigos
     int cantidadDeEnemigos = 4;
     Enemigo enemigos[4];
     cargarEnemigos(enemigos, cantidadDeEnemigos);
-    
-
 
     int pos = 0;
     char txt[10];
@@ -136,14 +121,11 @@ void inciarPartida(Clase *p){
             aumentoStats(p, pos+ 1);
         }
         
-        
         if (pos + 1 == 4){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");
             sleep(1);
         }
 
-        
-        
         pos ++;
 
         if (pos == 4){
@@ -152,17 +134,6 @@ void inciarPartida(Clase *p){
             salir();
             break;
         }
-        
-
-
-
     }
     free(p);
-
-
-
-
-
 }
-
-

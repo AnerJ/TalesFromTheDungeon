@@ -62,13 +62,12 @@ Clase * crearPersonaje(){
         //Pasar el valor a entero
         sscanf(promt2, "%d", &opcion2 );
 
-
         if (opcion2 == 1)
         {
-            printf("\nHas elegido el Guerrero\n");
+            system("cls");
+            printf("\nHas elegido el Guerrero\n\n");
             cargarClase(opcion2, personaje);
             
-
         } else if (opcion2 == 2){
             printf("\nHas elegido el Cazador\n");
             cargarClase(opcion2, personaje);
@@ -81,15 +80,5 @@ Clase * crearPersonaje(){
             salir();
         }
         
-
-
         return personaje;
-    
-    
-
-
-    
-
-
-
 }

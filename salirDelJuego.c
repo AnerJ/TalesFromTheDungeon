@@ -4,7 +4,7 @@
 #include "datos.h"
 
 void salir(){
-    printf("Saliendo....\n");
+    printf("\n\nSaliendo....\n");
     cerrarBD();
     exit(0);
 
