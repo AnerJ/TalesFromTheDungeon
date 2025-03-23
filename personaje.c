@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "personaje.h"
 #include "salirDelJuego.h"
 #include "datos.h"
@@ -13,6 +14,7 @@ Clase * crearPersonaje(){
     printf("\n===============\n"
             "Creacion de Personaje\n"
             "===============\n");
+    sleep(2);
 
     printf("\n*****************\n"
         "| 1. Guerrero   |\n"
@@ -22,6 +24,7 @@ Clase * crearPersonaje(){
         "| Velocidad: 2  |\n"
         "| Precision: 5  |\n"
         "*****************\n");
+    sleep(2);
          
     printf("\n*****************\n"
         "| 2. Cazador    |\n"
@@ -31,6 +34,7 @@ Clase * crearPersonaje(){
         "| Velocidad: 5  |\n"
         "| Precision: 7  |\n"
         "*****************\n");
+    sleep(2);
     
     printf("\n*****************\n"
         "| 3. Picaro     |\n"
@@ -40,7 +44,7 @@ Clase * crearPersonaje(){
         "| Velocidad: 8  |\n"
         "| Precision: 9  |\n"
         "*****************\n");
-     
+    sleep(2); 
 
     printf("\nElige una clase: \n");
 
@@ -63,7 +67,7 @@ Clase * crearPersonaje(){
         {
             printf("\nHas elegido el Guerrero\n");
             cargarClase(opcion2, personaje);
-            printf("Vida %i, Armadura %i, Ataque %i, Veces %i\n", personaje->vida, personaje->armadura, personaje->ataque, personaje->veces);
+            
 
         } else if (opcion2 == 2){
             printf("\nHas elegido el Cazador\n");

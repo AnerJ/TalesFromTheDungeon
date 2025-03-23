@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "personaje.h"
 
 
@@ -9,10 +10,13 @@
 void aumentoStats(Clase *p, int sala){
     char promt[10];
     int opcion;
-    printf("Felicidades, valiente aventurero\n"
-        "Que tu poder crezca y tu determinacion no flaquee\n"
-        "Elige una de estas tres bonificaciones:\n ");
+    printf("Felicidades, valiente aventurero\n" );
+    sleep(1);
 
+    printf("Que tu poder crezca y tu determinacion no flaquee\n");
+    sleep(1);
+    printf("Elige una de estas tres bonificaciones:\n ");
+    sleep(1);
     
     if (sala == 1){
         printf("1. +2 de Ataque\n 2. +2 de Armadura\n 3. +2 de Vida\n");

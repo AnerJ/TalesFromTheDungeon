@@ -1,12 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "personaje.h"
 #include "salirDelJuego.h"
 #include "combate.h"
 #include "datos.h"
 #include "mazmorra.h"
 #include "progresion.h"
+
 
 void mostrarMenu();
 void nuevaPartida();
@@ -70,6 +72,7 @@ void mostrarMenu(){
     printf("\n=================================\n");
     printf("TALES FROM THE DUNGEON\n");
     printf("=================================\n");
+    sleep(3);
     printf("1. Nueva Partida\n");
     printf("2. Cargar Partida\n");
     printf("3. Salir\n");
@@ -78,7 +81,8 @@ void mostrarMenu(){
 
 void nuevaPartida(){
     printf("Creando nueva partida... \n");
-    //Llamara al modulo para crear una nuevo personajeç
+    sleep(1);
+    //Llamara al modulo para crear una nuevo personaje
     Clase *clase = crearPersonaje();
     if (clase == NULL){
         printf("Error al crear personaje\n");
@@ -99,16 +103,15 @@ void inciarPartida(Clase *p){
     int cantidadDeEnemigos = 4;
     Enemigo enemigos[4];
     cargarEnemigos(enemigos, cantidadDeEnemigos);
-    for (int i = 0; i< 4; i++){
-        printf("Enemigo %d: %s\n", i , enemigos[i].nombre);
-    }
+    
 
 
     int pos = 0;
     char txt[10];
     int accion;
-    printf ("La vida de tu personaje: %d", p->vida);
+    
     printf("Te adentras a la mazmorra...\n");
+    sleep(2);
      
     while (p->vida >= 0){
 
@@ -136,6 +139,7 @@ void inciarPartida(Clase *p){
         
         if (pos + 1 == 4){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");
+            sleep(1);
         }
 
         
