@@ -18,15 +18,15 @@ int lanzar_dado(int veces, int danyo) {
 
 // Función de combate por turnos
 void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
-    FILE *logFile = fopen("combate_log.txt", "a");
+    FILE *logFile = fopen("log/combate_log.txt", "a");
     if (logFile == NULL) {
         printf("Error al abrir el archivo de log.\n");
         return;
     }
-    fprintf(logFile, "\n---------------------------------------------\n");
     fprintf(logFile, "\n++++++++++++++++++++++++++++++\n");
     fprintf(logFile, "+  Enemigo: %s\n", enemigo->nombre);
     fprintf(logFile, "++++++++++++++++++++++++++++++\n");
+    fprintf(logFile, "\n---------------------------------------------\n");
 
     printf("\n¡Un %s ha aparecido!\n", enemigo->nombre);
     printf("El combate comienza...\n");
