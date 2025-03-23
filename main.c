@@ -6,6 +6,7 @@
 #include "combate.h"
 #include "datos.h"
 #include "mazmorra.h"
+#include "progresion.h"
 
 void mostrarMenu();
 void nuevaPartida();
@@ -127,6 +128,11 @@ void inciarPartida(Clase *p){
         accionesM(accion);
         Enemigo e = enemigos[pos];
         iniciarCombate( p, &e);
+        
+        if (p->vida > 0){
+            aumentoStats(p, pos+ 1);
+        }
+        
         
         if (pos + 1 == 4){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");

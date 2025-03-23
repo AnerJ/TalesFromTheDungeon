@@ -81,7 +81,7 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
         }
 
         if (jugador->vida <= 0) {
-            printf("¡Has sido derrotado!\n");
+            printf("Has sido derrotado!\n");
             break;
         }
     }
