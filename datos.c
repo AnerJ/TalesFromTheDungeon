@@ -113,7 +113,31 @@ int guardarPartida(int idJugador, const char *datos) {
     return rc == SQLITE_DONE ? 0 : rc;
 }
 
+// Función auxiliar para verificar si hay datos en una tabla
+int existeEnTabla(const char *tabla) {
+    sqlite3_stmt *stmt;
+    char sql[128];
+    snprintf(sql, sizeof(sql), "SELECT COUNT(*) FROM %s;", tabla);
+
+    int count = 0;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (rc == SQLITE_OK) {
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            count = sqlite3_column_int(stmt, 0);
+        }
+    }
+    sqlite3_finalize(stmt);
+    return count > 0; // Retorna 1 si ya hay datos, 0 si no hay
+}
+
 int insertarClases() {
+
+
+    if (existeEnTabla("Clases")) {
+        printf("Las clases ya han sido insertadas previamente.\n");
+        return 0; // No insertamos de nuevo
+    }
+
     const char *sqlEstadisticas = "INSERT INTO Estadisticas (vida, armadura, velocidad, veces, ataque) VALUES (?, ?, ?, ?, ?);";
     const char *sqlClases = "INSERT INTO Clases (nombre, idEstadistica) VALUES (?, last_insert_rowid());";
 
@@ -171,6 +195,11 @@ int insertarClases() {
 }
 
 int insertarEnemigos() {
+    if (existeEnTabla("Enemigos")) {
+        printf("Los enemigos ya han sido insertados previamente.\n");
+        return 0; // No insertamos de nuevo
+    }
+
     const char *sqlEstadisticas = "INSERT INTO Estadisticas (vida, armadura, velocidad, veces, ataque) VALUES (?, ?, ?, ?, ?);";
     const char *sqlEnemigos = "INSERT INTO Enemigos (nombre, idEstadistica) VALUES (?, last_insert_rowid());";
 
