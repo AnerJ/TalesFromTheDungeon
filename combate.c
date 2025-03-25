@@ -60,7 +60,7 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
         sleep(1);
 
         // Comprobar la velocidad para saber quien tiene turno primero
-        if(jugador->velocidad > enemigo->velocidad){
+        if(jugador->velocidad >= enemigo->velocidad){
             printf("Eres mas rapido que tu rival\n");
             sleep(1);
             printf("Atacas primero\n");
@@ -69,7 +69,7 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
             turnoPersonaje(jugador, enemigo, logFile);
             turnoEnemigo(jugador, enemigo, logFile);
 
-        } else if (jugador->velocidad < enemigo->velocidad){
+        } else if (jugador->velocidad <= enemigo->velocidad){
             printf("El enemigo es mas rapido que tu\n");
             sleep(1);
             printf("Atacara primero\n");
