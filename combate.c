@@ -58,6 +58,7 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
         printf("\n*****************\n");
         fprintf(logFile, "\n*****************\n");
         sleep(1);
+        int armaduraIncial = jugador->armadura;
 
         // Comprobar la velocidad para saber quien tiene turno primero
         if(jugador->velocidad >= enemigo->velocidad){
@@ -86,7 +87,9 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
         }
         
 
-
+        if (jugador->armadura != armaduraIncial){
+            jugador->armadura = armaduraIncial;
+        }
 
         
 
