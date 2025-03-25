@@ -278,3 +278,80 @@ Has hecho 9 de daño al Espectro Deambulant!
 Turno del Espectro Deambulant
 El Espectro Deambulant te ha hecho 14 de daño.
 GAME OVER!
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 10
+Ataque: 3d5                  Ataque: 1d4
+Armadura: 2                   Armadura: 5
+Velocidad: 8                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 5 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 5
+Ataque: 3d5                  Ataque: 1d4
+Armadura: 2                   Armadura: 5
+Velocidad: 8                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 9 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 1 de daño.
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 10
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 10
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador

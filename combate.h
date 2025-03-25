@@ -16,5 +16,7 @@ typedef struct {
 } Enemigo;
 
 void iniciarCombate(Clase *jugador, Enemigo *enemigo);
+void turnoPersonaje(Clase *jugador, Enemigo *enemigo, FILE *logFile);
+void turnoEnemigo(Clase *jugador, Enemigo *enemigo, FILE *logFile);
 
 #endif

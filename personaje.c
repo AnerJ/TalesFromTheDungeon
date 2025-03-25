@@ -59,6 +59,10 @@ Clase * crearPersonaje(){
             promt2[strlen(promt2)-1] = '\0';
         }
 
+        int ch; //Limpiar el buffer
+        while ((ch = getchar()) != '\n' && ch != EOF);
+
+        
         //Pasar el valor a entero
         sscanf(promt2, "%d", &opcion2 );
 
@@ -76,7 +80,7 @@ Clase * crearPersonaje(){
             printf("\nHas elegido el Picaro");
             cargarClase(opcion2, personaje);
 
-        } else if (opcion2 == 4){
+        } else if (opcion2 == 5){
             salir();
         }
         

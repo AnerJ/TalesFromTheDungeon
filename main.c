@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <windows.h>
 #include "personaje.h"
 #include "salirDelJuego.h"
 #include "combate.h"
@@ -17,7 +16,7 @@ void inciarPartida(Clase *p);
 
 int main(){
     // Configurar la consola en UTF-8 para poder mostrar la 'ñ', la '¡' y las tildes
-    SetConsoleOutputCP(CP_UTF8);  // Configurar la consola en UTF-8
+    
     //Inicializacion de la base de datos
     inicializarBD();
     insertarClases();
@@ -95,7 +94,7 @@ void inciarPartida(Clase *p){
     char txt[10];
     int accion;
     
-    printf("Te adentras a la mazmorra...\n");
+    printf("\nTe adentras a la mazmorra...\n");
     sleep(2);
      
     while (p->vida >= 0){
@@ -112,8 +111,19 @@ void inciarPartida(Clase *p){
             txt[strlen(txt)-1] = '\0';
         }
 
+
+        int ch; //Limpiar el buffer
+        while ((ch = getchar()) != '\n' && ch != EOF);
+
+        
         //Pasar el valor a entero
         sscanf(txt, "%d", &accion );
+
+
+        if (accion == 5){
+            salir();
+        }
+
         accionesM(accion);
         Enemigo e = enemigos[pos];
         iniciarCombate( p, &e);
@@ -124,13 +134,14 @@ void inciarPartida(Clase *p){
         
         if (pos + 1 == 4){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");
-            sleep(1);
+            sleep(3);
         }
 
         pos ++;
 
         if (pos == 4){
             printf("Enhorabuena has terminado tu aventura");
+            sleep(3);
             free(p);
             salir();
             break;
