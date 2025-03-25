@@ -112,10 +112,9 @@ void inciarPartida(Clase *p){
         }
 
 
-        int ch; //Limpiar el buffer
-        while ((ch = getchar()) != '\n' && ch != EOF);
-
         
+
+
         //Pasar el valor a entero
         sscanf(txt, "%d", &accion );
 

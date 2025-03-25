@@ -79,6 +79,7 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
             if (jugador->vida <= 0) {
                 printf("Has sido derrotado!\n");
                 fprintf(logFile, "GAME OVER!\n");
+                salir();
                 break;
             }
             turnoPersonaje(jugador, enemigo, logFile);
@@ -101,6 +102,7 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
         if (jugador->vida <= 0) {
             printf("Has sido derrotado!\n");
             fprintf(logFile, "GAME OVER!\n");
+            salir();
             break;
         }
 
@@ -125,10 +127,9 @@ void turnoPersonaje(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
     fgets(c, 10, stdin);
     if (c[strlen(c) - 1] == '\n') c[strlen(c) - 1] = '\0';
 
-    int ch; //Limpiar el buffer
-    while ((ch = getchar()) != '\n' && ch != EOF);
 
-    
+
+
     sscanf(c, "%d", &opcion);
 
     if (opcion == 1) { // Ataque

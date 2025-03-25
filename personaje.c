@@ -15,6 +15,25 @@ Clase * crearPersonaje(){
             "Creacion de Personaje\n"
             "===============\n");
     sleep(2);
+    printf("\nDime tu nombre valiente aventurero: \n");
+    
+
+
+    char nombre[10];
+    //char* nombre1;
+    
+    fgets(nombre, sizeof(nombre), stdin);
+    
+
+        //Eliminar el salto de linea
+    if( nombre[strlen(nombre)-1] == '\n'){
+            nombre[strlen(nombre)-1] = '\0';
+    }
+
+    //sscanf(nombre, "%c", &nombre1 );
+
+    
+    printf("Valiente aventurero %s, Elige tu clase: \n", nombre);
 
     printf("\n*****************\n"
         "| 1. Guerrero   |\n"
@@ -52,19 +71,18 @@ Clase * crearPersonaje(){
     char promt2[10];
     int opcion2;
     
-        fgets(promt2, 10, stdin);
+    fgets(promt2, 10, stdin);
 
         //Eliminar el salto de linea
-        if( promt2[strlen(promt2)-1] == '\n'){
+    if( promt2[strlen(promt2)-1] == '\n'){
             promt2[strlen(promt2)-1] = '\0';
-        }
+    }
 
-        int ch; //Limpiar el buffer
-        while ((ch = getchar()) != '\n' && ch != EOF);
+    
 
-        
-        //Pasar el valor a entero
-        sscanf(promt2, "%d", &opcion2 );
+
+    //Pasar el valor a entero
+    sscanf(promt2, "%d", &opcion2 );
 
         if (opcion2 == 1)
         {
