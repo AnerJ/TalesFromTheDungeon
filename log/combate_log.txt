@@ -195,3 +195,86 @@ Velocidad: 2                  Velocidad: 1
 *****************
 
 Turno del jugador
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 10
+Ataque: 3d5                  Ataque: 1d4
+Armadura: 2                   Armadura: 5
+Velocidad: 8                  Velocidad: 1
+*****************
+
+Turno del jugador
+Has hecho 5 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 5
+Ataque: 3d5                  Ataque: 1d4
+Armadura: 2                   Armadura: 5
+Velocidad: 8                  Velocidad: 1
+*****************
+
+Turno del jugador
+Has hecho 9 de daño al Esqueleto!
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Golem
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 7
+Ataque: 3d7                  Ataque: 3d10
+Armadura: 2                   Armadura: 1
+Velocidad: 8                  Velocidad: 4
+*****************
+
+Turno del jugador
+Has hecho 13 de daño al Golem!
+
+++++++++++++++++++++++++++++++
+*  Golem derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Espectro Deambulant
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 13
+Ataque: 3d7                  Ataque: 5d4
+Armadura: 3                   Armadura: 5
+Velocidad: 8                  Velocidad: 2
+*****************
+
+Turno del jugador
+Has hecho 9 de daño al Espectro Deambulant!
+
+Turno del Espectro Deambulant
+El Espectro Deambulant te ha hecho 14 de daño.
+GAME OVER!
