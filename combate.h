@@ -7,7 +7,7 @@
 #include "personaje.h" // Para usar la estructura del personaje
 
 typedef struct {
-    char nombre[20];
+    char nombre[25];
     int ataque;
     int veces;
     int armadura;

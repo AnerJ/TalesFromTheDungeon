@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <windows.h>
 #include "personaje.h"
 #include "salirDelJuego.h"
 #include "combate.h"
@@ -16,7 +17,7 @@ void inciarPartida(Clase *p);
 
 int main(){
     // Configurar la consola en UTF-8 para poder mostrar la 'ñ', la '¡' y las tildes
-    
+    SetConsoleOutputCP(CP_UTF8); 
     //Inicializacion de la base de datos
     inicializarBD();
     insertarClases();
