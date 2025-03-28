@@ -113,7 +113,31 @@ int guardarPartida(int idJugador, const char *datos) {
     return rc == SQLITE_DONE ? 0 : rc;
 }
 
-// Función auxiliar para verificar si hay datos en una tabla
+int cargarPartidaDB(int idJugador, char *buffer, int bufferSize) {
+    const char *sql = "SELECT datos FROM Partidas WHERE idJugador = ? ORDER BY id DESC LIMIT 1;";
+    sqlite3_stmt *stmt;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error preparando consulta: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+    
+    sqlite3_bind_int(stmt, 1, idJugador);
+    
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_ROW) {
+        // Obtenemos el valor del campo "datos"
+        const unsigned char *data = sqlite3_column_text(stmt, 0);
+        snprintf(buffer, bufferSize, "%s", data);
+        sqlite3_finalize(stmt);
+        return 0;
+    } else {
+        fprintf(stderr, "No se encontró partida guardada para el idJugador %d.\n", idJugador);
+        sqlite3_finalize(stmt);
+        return 1; // No se encontró partida
+    }
+}
+
 int existeEnTabla(const char *tabla) {
     sqlite3_stmt *stmt;
     char sql[128];

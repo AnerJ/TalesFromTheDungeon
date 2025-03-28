@@ -81,6 +81,7 @@ void nuevaPartida(){
 
 void cargarPartida(){
     printf("Cargando partida... \n");
+    cargarGameState(1, NULL);
     //Llamara al modulo para cargar una partida
 }
 
@@ -147,4 +148,62 @@ void inciarPartida(Clase *p){
         }
     }
     free(p);
+}
+
+int cargarGameState(int idJugador, GameState *state) {
+    char buffer[1024];
+    int rc = cargarPartidaDB(idJugador, buffer, sizeof(buffer));
+    if (rc != 0) {
+        fprintf(stderr, "No se pudo cargar la partida para el jugador %d.\n", idJugador);
+        return rc;
+    }
+    
+    char *token = strtok(buffer, "|");
+    if (token == NULL) return -1;
+    state->idJugador = atoi(token);
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    strncpy(state->nombreJugador, token, sizeof(state->nombreJugador)-1);
+    state->nombreJugador[sizeof(state->nombreJugador)-1] = '\0';
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    state->estadisticas.vida = atoi(token);
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    state->estadisticas.armadura = atoi(token);
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    state->estadisticas.velocidad = atoi(token);
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    state->estadisticas.ataque = atoi(token);
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    state->estadisticas.veces = atoi(token);
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    state->estadisticas.veces = atoi(token);
+
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    state->salaActual = atoi(token);
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    strncpy(state->enemigosEliminados, token, sizeof(state->enemigosEliminados)-1);
+    state->enemigosEliminados[sizeof(state->enemigosEliminados)-1] = '\0';
+    
+    token = strtok(NULL, "|");
+    if (token == NULL) return -1;
+    strncpy(state->enemigosRestantes, token, sizeof(state->enemigosRestantes)-1);
+    state->enemigosRestantes[sizeof(state->enemigosRestantes)-1] = '\0';
+    
+    return 0;
 }

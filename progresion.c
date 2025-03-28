@@ -3,6 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 #include "personaje.h"
+#include "salirDelJuego.h"
+#include "progresion.h"
 
 
 
@@ -83,4 +85,23 @@ void aumentoStats(Clase *p, int sala){
     }
 
 
+}
+
+
+int guardarGameState(const GameState *state) {
+    char buffer[1024];
+    snprintf(buffer, sizeof(buffer), "%d|%s|%d|%d|%d|%d|%d|%d|%d|%s|%s",
+             state->idJugador,
+             state->nombreJugador,
+             state->estadisticas.vida,
+             state->estadisticas.armadura,
+             state->estadisticas.velocidad,
+             state->estadisticas.ataque,
+             state->estadisticas.veces,
+             state->nombreJugador,
+             state->salaActual,
+             state->enemigosEliminados,
+             state->enemigosRestantes);
+
+    return guardarPartida(state->idJugador, buffer);
 }
