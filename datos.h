@@ -15,5 +15,7 @@ int insertarEnemigos();
 int insertarJugador(const char *nombre, int idClase);
 int cargarClase(int idClase, Clase *clase);
 int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos);
+int existeEnTabla(const char *nombreTabla);
+
 
 #endif

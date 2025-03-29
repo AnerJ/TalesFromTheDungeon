@@ -297,29 +297,20 @@ int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos) {
     return SQLITE_OK;
 }
 
-int guardarPartida(sqlite3 *db, const char *nombrePartida, int idJugador, int salaActual) {
+int existeEnTabla(const char *nombreTabla) {
+    char query[128];
+    snprintf(query, sizeof(query), "SELECT 1 FROM %s LIMIT 1;", nombreTabla);
+
     sqlite3_stmt *stmt;
-    const char *sql = "INSERT INTO Partidas (nombre, idJugador, salaActual) VALUES (?, ?, ?);";
-
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
-        fprintf(stderr, "Error al preparar la consulta: %s\n", sqlite3_errmsg(db));
-        return SQLITE_ERROR;
+    if (sqlite3_prepare_v2(db, query, -1, &stmt, 0) != SQLITE_OK) {
+        return 0; // tabla no existe o vacía
     }
 
-    sqlite3_bind_text(stmt, 1, nombrePartida, -1, SQLITE_STATIC);
-    sqlite3_bind_int(stmt, 2, idJugador);
-    sqlite3_bind_int(stmt, 3, salaActual);
-
-    if (sqlite3_step(stmt) != SQLITE_DONE) {
-        fprintf(stderr, "Error al guardar partida: %s\n", sqlite3_errmsg(db));
-        sqlite3_finalize(stmt);
-        return SQLITE_ERROR;
-    }
-
+    int result = (sqlite3_step(stmt) == SQLITE_ROW);
     sqlite3_finalize(stmt);
-    printf("✅ Partida guardada correctamente.\n");
-    return SQLITE_OK;
+    return result;
 }
+
 
 // Insertar nuevo jugador en la base de datos
 int insertarJugador(const char *nombre, int idClase) {

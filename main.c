@@ -83,7 +83,7 @@ void cargarPartidaMenu(){
     sqlite3 *db = inicializarBD();
     if (db == NULL) {
         fprintf(stderr, "Error al inicializar la base de datos.\n");
-        return 1;
+        return;
     }
     
     if (!cargarPartida(db, &idJugador, &salaActual)) {

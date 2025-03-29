@@ -93,8 +93,8 @@ int guardarPartida(sqlite3 *db, const char *nombrePartida, int idJugador, int sa
     const char *sql = "INSERT INTO Partidas (nombre, idJugador, salaActual) VALUES (?, ?, ?);";
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
-        printf("Error al preparar la consulta: %s\n", sqlite3_errmsg(db));
-        return 0;
+        fprintf(stderr, "Error al preparar la consulta: %s\n", sqlite3_errmsg(db));
+        return SQLITE_ERROR;
     }
 
     sqlite3_bind_text(stmt, 1, nombrePartida, -1, SQLITE_STATIC);
@@ -102,15 +102,16 @@ int guardarPartida(sqlite3 *db, const char *nombrePartida, int idJugador, int sa
     sqlite3_bind_int(stmt, 3, salaActual);
 
     if (sqlite3_step(stmt) != SQLITE_DONE) {
-        printf("Error al guardar partida: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Error al guardar partida: %s\n", sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        return 0;
+        return SQLITE_ERROR;
     }
 
     sqlite3_finalize(stmt);
     printf("✅ Partida guardada correctamente.\n");
-    return 1;
+    return SQLITE_OK;
 }
+
 
 // Carga una partida guardada por el jugador
 int cargarPartida(sqlite3 *db, int *idJugador, int *salaActual) {
