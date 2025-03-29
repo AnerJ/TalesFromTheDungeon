@@ -8,151 +8,80 @@
 
 static sqlite3 *db = NULL;
 
-int inicializarBD() {
+sqlite3* inicializarBD() {
     int rc = sqlite3_open("talesfromthedungeon.db", &db);
     if(rc) {
         fprintf(stderr, "No se puede abrir la base de datos: %s\n", sqlite3_errmsg(db));
-        return rc;
+        return NULL;
     }
 
     char *errMsg = NULL;
 
-    // Modificar la tabla Estadisticas (ahora incluye ataque y veces)
     const char *sqlEstadisticas = "CREATE TABLE IF NOT EXISTS Estadisticas ("
                                   "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                  "vida INTEGER, "
-                                  "armadura INTEGER, "
-                                  "velocidad INTEGER, "
-                                  "veces INTEGER, "  // Nuevo campo
-                                  "ataque INTEGER);"; // Nuevo campo
+                                  "vida INTEGER, armadura INTEGER, velocidad INTEGER, "
+                                  "veces INTEGER, ataque INTEGER);";
     rc = sqlite3_exec(db, sqlEstadisticas, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Error creando tabla Estadisticas: %s\n", errMsg);
         sqlite3_free(errMsg);
-        return rc;
+        return NULL;
     }
 
-    // Tabla Clases
     const char *sqlClases = "CREATE TABLE IF NOT EXISTS Clases ("
                             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                            "nombre TEXT NOT NULL, "
-                            "idEstadistica INTEGER, "
+                            "nombre TEXT NOT NULL, idEstadistica INTEGER, "
                             "FOREIGN KEY (idEstadistica) REFERENCES Estadisticas(id));";
     rc = sqlite3_exec(db, sqlClases, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Error creando tabla Clases: %s\n", errMsg);
         sqlite3_free(errMsg);
-        return rc;
+        return NULL;
     }
 
-    // Tabla Jugador
     const char *sqlJugador = "CREATE TABLE IF NOT EXISTS Jugador ("
                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                             "nombre TEXT NOT NULL, "
-                             "idClase INTEGER, "
+                             "nombre TEXT NOT NULL, idClase INTEGER, "
                              "FOREIGN KEY (idClase) REFERENCES Clases(id));";
     rc = sqlite3_exec(db, sqlJugador, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Error creando tabla Jugador: %s\n", errMsg);
         sqlite3_free(errMsg);
-        return rc;
+        return NULL;
     }
 
-    // Tabla Enemigos
     const char *sqlEnemigos = "CREATE TABLE IF NOT EXISTS Enemigos ("
                               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                              "nombre TEXT NOT NULL, "
-                              "idEstadistica INTEGER, "
+                              "nombre TEXT NOT NULL, idEstadistica INTEGER, "
                               "FOREIGN KEY (idEstadistica) REFERENCES Estadisticas(id));";
     rc = sqlite3_exec(db, sqlEnemigos, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Error creando tabla Enemigos: %s\n", errMsg);
         sqlite3_free(errMsg);
-        return rc;
+        return NULL;
     }
 
-    // Tabla Partidas
     const char *sqlPartidas = "CREATE TABLE IF NOT EXISTS Partidas ("
                               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                              "idJugador INTEGER, "
-                              "datos TEXT, "
+                              "nombre TEXT NOT NULL, idJugador INTEGER, "
+                              "salaActual INTEGER, "
+                              "fechaGuardado DATETIME DEFAULT CURRENT_TIMESTAMP, "
                               "FOREIGN KEY (idJugador) REFERENCES Jugador(id));";
     rc = sqlite3_exec(db, sqlPartidas, 0, 0, &errMsg);
     if(rc != SQLITE_OK) {
         fprintf(stderr, "Error creando tabla Partidas: %s\n", errMsg);
         sqlite3_free(errMsg);
-        return rc;
+        return NULL;
     }
 
-    return 0;
-}
-
+    return db;
+};
 
 void cerrarBD() {
     if(db)
         sqlite3_close(db);
 }
 
-int guardarPartida(int idJugador, const char *datos) {
-    const char *sql = "INSERT INTO Partidas (idJugador, datos) VALUES (?, ?);";
-    sqlite3_stmt *stmt;
-    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
-    if(rc != SQLITE_OK) {
-        fprintf(stderr, "Error preparando statement: %s\n", sqlite3_errmsg(db));
-        return rc;
-    }
-    
-    sqlite3_bind_int(stmt, 1, idJugador);
-    sqlite3_bind_text(stmt, 2, datos, -1, SQLITE_STATIC);
-    
-    rc = sqlite3_step(stmt);
-    if(rc != SQLITE_DONE) {
-        fprintf(stderr, "Error ejecutando statement: %s\n", sqlite3_errmsg(db));
-    }
-    sqlite3_finalize(stmt);
-    return rc == SQLITE_DONE ? 0 : rc;
-}
-
-int cargarPartidaDB(int idJugador, char *buffer, int bufferSize) {
-    const char *sql = "SELECT datos FROM Partidas WHERE idJugador = ? ORDER BY id DESC LIMIT 1;";
-    sqlite3_stmt *stmt;
-    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-    if (rc != SQLITE_OK) {
-        fprintf(stderr, "Error preparando consulta: %s\n", sqlite3_errmsg(db));
-        return rc;
-    }
-    
-    sqlite3_bind_int(stmt, 1, idJugador);
-    
-    rc = sqlite3_step(stmt);
-    if (rc == SQLITE_ROW) {
-        // Obtenemos el valor del campo "datos"
-        const unsigned char *data = sqlite3_column_text(stmt, 0);
-        snprintf(buffer, bufferSize, "%s", data);
-        sqlite3_finalize(stmt);
-        return 0;
-    } else {
-        fprintf(stderr, "No se encontró partida guardada para el idJugador %d.\n", idJugador);
-        sqlite3_finalize(stmt);
-        return 1; // No se encontró partida
-    }
-}
-
-int existeEnTabla(const char *tabla) {
-    sqlite3_stmt *stmt;
-    char sql[128];
-    snprintf(sql, sizeof(sql), "SELECT COUNT(*) FROM %s;", tabla);
-
-    int count = 0;
-    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-    if (rc == SQLITE_OK) {
-        if (sqlite3_step(stmt) == SQLITE_ROW) {
-            count = sqlite3_column_int(stmt, 0);
-        }
-    }
-    sqlite3_finalize(stmt);
-    return count > 0; // Retorna 1 si ya hay datos, 0 si no hay
-}
 
 int insertarClases() {
 
@@ -368,5 +297,51 @@ int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos) {
     return SQLITE_OK;
 }
 
+int guardarPartida(sqlite3 *db, const char *nombrePartida, int idJugador, int salaActual) {
+    sqlite3_stmt *stmt;
+    const char *sql = "INSERT INTO Partidas (nombre, idJugador, salaActual) VALUES (?, ?, ?);";
 
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
+        fprintf(stderr, "Error al preparar la consulta: %s\n", sqlite3_errmsg(db));
+        return SQLITE_ERROR;
+    }
 
+    sqlite3_bind_text(stmt, 1, nombrePartida, -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, 2, idJugador);
+    sqlite3_bind_int(stmt, 3, salaActual);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        fprintf(stderr, "Error al guardar partida: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return SQLITE_ERROR;
+    }
+
+    sqlite3_finalize(stmt);
+    printf("✅ Partida guardada correctamente.\n");
+    return SQLITE_OK;
+}
+
+// Insertar nuevo jugador en la base de datos
+int insertarJugador(const char *nombre, int idClase) {
+    sqlite3_stmt *stmt;
+    const char *sql = "INSERT INTO Jugador (nombre, idClase) VALUES (?, ?);";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+        fprintf(stderr, "Error preparando la inserción: %s\n", sqlite3_errmsg(db));
+        return SQLITE_ERROR;
+    }
+
+    sqlite3_bind_text(stmt, 1, nombre, -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, 2, idClase);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        fprintf(stderr, "Error al insertar jugador: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return SQLITE_ERROR;
+    }
+
+    sqlite3_finalize(stmt);
+
+    printf("✅ Jugador '%s' insertado correctamente con idClase %d.\n", nombre, idClase);
+    return SQLITE_OK;
+}

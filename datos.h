@@ -1,15 +1,19 @@
-// datos.h
+
 #ifndef DATOS_H
 #define DATOS_H
 
+#include "sqlite3.h"
 #include "personaje.h"
 #include "combate.h"
-int inicializarBD();
+
+sqlite3* inicializarBD();
 void cerrarBD();
-int guardarPartida(int idJugador, const char *datos);
+
 int insertarClases();
 int insertarEnemigos();
+
+int insertarJugador(const char *nombre, int idClase);
 int cargarClase(int idClase, Clase *clase);
 int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos);
 
-#endif // DATOS_H
+#endif

@@ -5,19 +5,20 @@
 #include "personaje.h"
 #include "salirDelJuego.h"
 #include "datos.h"
+#include <sqlite3.h> 
 
-
+extern sqlite3* inicializarBD();
 
 Clase * crearPersonaje(){
     Clase * personaje = NULL;
+    sqlite3 *db = inicializarBD();
     personaje = (Clase*) malloc (sizeof(Clase));
+
     printf("\n===============\n"
             "Creacion de Personaje\n"
             "===============\n");
     sleep(2);
     printf("\nDime tu nombre valiente aventurero: \n");
-    
-
 
     char nombre[10];
     //char* nombre1;
@@ -77,10 +78,7 @@ Clase * crearPersonaje(){
     if( promt2[strlen(promt2)-1] == '\n'){
             promt2[strlen(promt2)-1] = '\0';
     }
-
     
-
-
     //Pasar el valor a entero
     sscanf(promt2, "%d", &opcion2 );
 
@@ -89,14 +87,17 @@ Clase * crearPersonaje(){
             system("cls");
             printf("\nHas elegido el Guerrero\n\n");
             cargarClase(opcion2, personaje);
+            insertarJugador(nombre, opcion2);
             
         } else if (opcion2 == 2){
             printf("\nHas elegido el Cazador\n");
             cargarClase(opcion2, personaje);
+            insertarJugador(nombre, opcion2);
 
         } else if (opcion2 == 3){
             printf("\nHas elegido el Picaro");
             cargarClase(opcion2, personaje);
+            insertarJugador(nombre, opcion2);
 
         } else if (opcion2 == 5){
             salir();

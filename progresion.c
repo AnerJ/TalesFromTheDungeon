@@ -87,21 +87,82 @@ void aumentoStats(Clase *p, int sala){
 
 }
 
+// Guarda el progreso del jugador
+int guardarPartida(sqlite3 *db, const char *nombrePartida, int idJugador, int salaActual) {
+    sqlite3_stmt *stmt;
+    const char *sql = "INSERT INTO Partidas (nombre, idJugador, salaActual) VALUES (?, ?, ?);";
 
-int guardarGameState(const GameState *state) {
-    char buffer[1024];
-    snprintf(buffer, sizeof(buffer), "%d|%s|%d|%d|%d|%d|%d|%d|%d|%s|%s",
-             state->idJugador,
-             state->nombreJugador,
-             state->estadisticas.vida,
-             state->estadisticas.armadura,
-             state->estadisticas.velocidad,
-             state->estadisticas.ataque,
-             state->estadisticas.veces,
-             state->nombreJugador,
-             state->salaActual,
-             state->enemigosEliminados,
-             state->enemigosRestantes);
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
+        printf("Error al preparar la consulta: %s\n", sqlite3_errmsg(db));
+        return 0;
+    }
 
-    return guardarPartida(state->idJugador, buffer);
+    sqlite3_bind_text(stmt, 1, nombrePartida, -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, 2, idJugador);
+    sqlite3_bind_int(stmt, 3, salaActual);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        printf("Error al guardar partida: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return 0;
+    }
+
+    sqlite3_finalize(stmt);
+    printf("✅ Partida guardada correctamente.\n");
+    return 1;
+}
+
+// Carga una partida guardada por el jugador
+int cargarPartida(sqlite3 *db, int *idJugador, int *salaActual) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT id, nombre, idJugador, salaActual, fechaGuardado FROM Partidas;";
+    
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
+        printf("Error al leer partidas guardadas: %s\n", sqlite3_errmsg(db));
+        return 0;
+    }
+
+    printf("📂 Partidas guardadas:\n");
+    int count = 0;
+    int ids[100];
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int id = sqlite3_column_int(stmt, 0);
+        const unsigned char *nombre = sqlite3_column_text(stmt, 1);
+        const unsigned char *fecha = sqlite3_column_text(stmt, 4);
+
+        printf("%d. %s (Guardado: %s)\n", ++count, nombre, fecha);
+        ids[count - 1] = id;
+    }
+    sqlite3_finalize(stmt);
+
+    if (count == 0) {
+        printf("❌ No hay partidas guardadas.\n");
+        return 0;
+    }
+
+    printf("Selecciona una partida (1-%d): ", count);
+    int eleccion;
+    scanf("%d", &eleccion);
+
+    if (eleccion < 1 || eleccion > count) {
+        printf("❌ Elección inválida.\n");
+        return 0;
+    }
+
+    char query[128];
+    snprintf(query, sizeof(query), "SELECT idJugador, salaActual FROM Partidas WHERE id = %d;", ids[eleccion - 1]);
+    
+    if (sqlite3_prepare_v2(db, query, -1, &stmt, 0) != SQLITE_OK) {
+        printf("Error al obtener partida: %s\n", sqlite3_errmsg(db));
+        return 0;
+    }
+
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        *idJugador = sqlite3_column_int(stmt, 0);
+        *salaActual = sqlite3_column_int(stmt, 1);
+        printf("🔄 Partida cargada. Jugador %d empezará en la sala %d.\n", *idJugador, *salaActual);
+    }
+
+    sqlite3_finalize(stmt);
+    return 1;
 }

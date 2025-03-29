@@ -1,20 +1,13 @@
 #ifndef PROGRESION_H
 #define PROGRESION_H
 #include "personaje.h"
+#include <sqlite3.h>
 
-
-typedef struct {
-    int idJugador;                        // ID del jugador en la BD
-    char nombreJugador[50];               // Nombre del jugador
-    Clase estadisticas;                        // Estadísticas actualizadas del jugador
-    int salaActual;                       // Número de sala actual en la mazmorra
-    char enemigosEliminados[256];         // Lista de enemigos derrotados (por ejemplo, "Esqueleto,Golem")
-    char enemigosRestantes[256];          // Lista de enemigos que faltan ("Espectro,Nigromante")
-} GameState;
 
 void aumentoStats(Clase *p, int sala);
+int guardarPartida(sqlite3 *db, const char *nombrePartida, int idJugador, int salaActual);
+int cargarPartida(sqlite3 *db, int *idJugador, int *salaActual);
 
-int cargarPartidaDB(int idJugador, char *buffer, int bufferSize);
 
 #endif
 
