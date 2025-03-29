@@ -34,6 +34,7 @@ Clase * crearPersonaje(){
 
     
     printf("Valiente aventurero %s, Elige tu clase: \n", nombre);
+    strcpy(personaje->nombre, nombre);
 
     printf("\n*****************\n"
         "| 1. Guerrero   |\n"
@@ -41,7 +42,6 @@ Clase * crearPersonaje(){
         "| Armadura: 7   |\n"
         "| Vida: 20      |\n"
         "| Velocidad: 2  |\n"
-        "| Precision: 5  |\n"
         "*****************\n");
     sleep(2);
          
@@ -51,7 +51,6 @@ Clase * crearPersonaje(){
         "| Armadura: 5   |\n"
         "| Vida: 15      |\n"
         "| Velocidad: 5  |\n"
-        "| Precision: 7  |\n"
         "*****************\n");
     sleep(2);
     
@@ -61,7 +60,6 @@ Clase * crearPersonaje(){
         "| Armadura: 2   |\n"
         "| Vida: 13      |\n"
         "| Velocidad: 8  |\n"
-        "| Precision: 9  |\n"
         "*****************\n");
     sleep(2); 
 
@@ -101,6 +99,8 @@ Clase * crearPersonaje(){
         } else if (opcion2 == 5){
             salir();
         }
-        
+        personaje->pos = 0;
+        personaje->idJugador =insertarJugador(nombre, opcion2);
+
         return personaje;
 }

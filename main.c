@@ -21,6 +21,7 @@ int main(){
     inicializarBD();
     insertarClases();
     insertarEnemigos();
+    
 
     char promt[10];
     int opcion;
@@ -72,6 +73,7 @@ void nuevaPartida(){
     printf("Creando nueva partida... \n");
     sleep(1);
     //Llamara al modulo para crear una nuevo personaje
+    
     Clase *clase = crearPersonaje();
     if (clase == NULL){
         printf("Error al crear personaje\n");
@@ -81,7 +83,30 @@ void nuevaPartida(){
 
 void cargarPartida(){
     printf("Cargando partida... \n");
+    sleep(4);
     //Llamara al modulo para cargar una partida
+    Clase *claseC = (Clase *)malloc(sizeof(Clase));
+
+    
+    mostrarPartidasGuardadas();
+    char nombreP[10];
+    int eleccion;
+
+    printf("Elige la partida que quieres cargar introduciendo el numero: ");
+
+    fgets(nombreP, 10, stdin);
+    if( nombreP[strlen(nombreP)-1] == '\n'){
+        nombreP[strlen(nombreP)-1] = '\0';
+    }
+
+    sscanf(nombreP, "%d", &eleccion );
+
+    
+
+
+    partidasCargadas(eleccion,claseC);
+    printf("Datos Cargados");
+    inciarPartida(claseC);
 }
 
 void inciarPartida(Clase *p){
@@ -90,7 +115,7 @@ void inciarPartida(Clase *p){
     Enemigo enemigos[4];
     cargarEnemigos(enemigos, cantidadDeEnemigos);
 
-    int pos = 0;
+    
     char txt[10];
     int accion;
     
@@ -99,7 +124,7 @@ void inciarPartida(Clase *p){
      
     while (p->vida >= 0){
 
-        mostrarMapa("ficheros/mazmorraMapa.txt", pos + 1);
+        mostrarMapa("ficheros/mazmorraMapa.txt", p->pos + 1);
 
         printf("Cual es tu siguiente accion: \n"
                 "1. Avanzar\n"
@@ -124,27 +149,33 @@ void inciarPartida(Clase *p){
         }
 
         accionesM(accion);
-        Enemigo e = enemigos[pos];
+        Enemigo e = enemigos[p->pos];
         iniciarCombate( p, &e);
         
         if (p->vida > 0){
-            aumentoStats(p, pos+ 1);
+            aumentoStats(p, p->pos+ 1);
         }
+
         
-        if (pos + 1 == 4){
+
+        
+        if (p->pos + 1 == 4){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");
             sleep(3);
         }
 
-        pos ++;
+        p->pos ++;
+        
 
-        if (pos == 4){
+        if (p->pos == 4){
             printf("Enhorabuena has terminado tu aventura");
             sleep(3);
             free(p);
             salir();
             break;
         }
+
+        guardarPartida(p->idJugador, p->pos, p->vida, p->armadura, p->velocidad, p->veces, p->ataque);
     }
     free(p);
 }

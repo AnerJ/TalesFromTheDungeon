@@ -93,25 +93,70 @@ void cerrarBD() {
         sqlite3_close(db);
 }
 
-int guardarPartida(int idJugador, const char *datos) {
-    const char *sql = "INSERT INTO Partidas (idJugador, datos) VALUES (?, ?);";
+int guardarPartida(int idJugador, int posicionSala, int vida, int armadura, int velocidad, int veces, int ataque) {
+    if (!db) {
+        fprintf(stderr, "Error: La base de datos no está inicializada.\n");
+        return -1;
+    }
+
+    // Verificar si el idJugador ya existe
+    const char *sqlCheck = "SELECT 1 FROM Partidas WHERE idJugador = ?;";
+    sqlite3_stmt *stmtCheck;
+    int existe = 0;
+
+    // Preparar y ejecutar la consulta de verificación
+    int rc = sqlite3_prepare_v2(db, sqlCheck, -1, &stmtCheck, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error preparando consulta de verificación: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    sqlite3_bind_int(stmtCheck, 1, idJugador);
+    rc = sqlite3_step(stmtCheck);
+    if (rc == SQLITE_ROW) {
+        existe = 1; // El jugador ya existe
+    } else if (rc != SQLITE_DONE) {
+        fprintf(stderr, "Error verificando partida: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmtCheck);
+        return rc;
+    }
+    sqlite3_finalize(stmtCheck);
+
+    // Preparar los datos JSON
+    char datos[256];
+    snprintf(datos, sizeof(datos), 
+             "{\"posicionSala\": %d, \"vida\": %d, \"armadura\": %d, \"velocidad\": %d, \"veces\": %d, \"ataque\": %d}", 
+             posicionSala, vida, armadura, velocidad, veces, ataque);
+
+    // Ejecutar INSERT o UPDATE según corresponda
+    const char *sql = existe ?
+        "UPDATE Partidas SET datos = ? WHERE idJugador = ?;" :
+        "INSERT INTO Partidas (idJugador, datos) VALUES (?, ?);";
+
     sqlite3_stmt *stmt;
-    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
-    if(rc != SQLITE_OK) {
+    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
         fprintf(stderr, "Error preparando statement: %s\n", sqlite3_errmsg(db));
         return rc;
     }
-    
-    sqlite3_bind_int(stmt, 1, idJugador);
-    sqlite3_bind_text(stmt, 2, datos, -1, SQLITE_STATIC);
-    
-    rc = sqlite3_step(stmt);
-    if(rc != SQLITE_DONE) {
-        fprintf(stderr, "Error ejecutando statement: %s\n", sqlite3_errmsg(db));
+
+    if (existe) {
+        sqlite3_bind_text(stmt, 1, datos, -1, SQLITE_STATIC);
+        sqlite3_bind_int(stmt, 2, idJugador);
+    } else {
+        sqlite3_bind_int(stmt, 1, idJugador);
+        sqlite3_bind_text(stmt, 2, datos, -1, SQLITE_STATIC);
     }
+
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        fprintf(stderr, "Error guardando partida: %s\n", sqlite3_errmsg(db));
+    }
+
     sqlite3_finalize(stmt);
     return rc == SQLITE_DONE ? 0 : rc;
 }
+
 
 // Función auxiliar para verificar si hay datos en una tabla
 int existeEnTabla(const char *tabla) {
@@ -343,6 +388,119 @@ int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos) {
 
     return SQLITE_OK;
 }
+
+int insertarJugador(const char *nombre, int idClase) {
+    if (!db) {
+        fprintf(stderr, "Error: La base de datos no está inicializada.\n");
+        return -1;
+    }
+
+    const char *sql = "INSERT INTO Jugador (nombre, idClase) VALUES (?, ?);";
+    sqlite3_stmt *stmt;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error preparando statement: %s\n", sqlite3_errmsg(db));
+        return -1;
+    }
+
+    sqlite3_bind_text(stmt, 1, nombre, -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, 2, idClase);
+
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        fprintf(stderr, "Error insertando en Jugador: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return -1;
+    }
+
+    int idJugador = sqlite3_last_insert_rowid(db);
+    sqlite3_finalize(stmt);
+    return idJugador; // Retorna el ID del jugador insertado
+}
+
+void partidasCargadas(int idJugador, Clase *clase) {
+    if (!db) {
+        fprintf(stderr, "Error: La base de datos no está inicializada.\n");
+        
+    }
+
+    const char *sql = "SELECT datos FROM Partidas WHERE idJugador = ?;";
+    sqlite3_stmt *stmt;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error preparando consulta: %s\n", sqlite3_errmsg(db));
+        
+    }
+
+    sqlite3_bind_int(stmt, 1, idJugador);
+
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_ROW) {
+        const char *datos = (const char *)sqlite3_column_text(stmt, 0);
+        if (datos) {
+            printf("Datos cargados desde la BD: %s\n", datos); // 🛠 DEPURACIÓN
+
+            int posicionSala, vida, armadura, velocidad, veces, ataque;
+            int resultado = sscanf(datos, "{\"posicionSala\": %d, \"vida\": %d, \"armadura\": %d, \"velocidad\": %d, \"veces\": %d, \"ataque\": %d}",
+                                   &posicionSala, &vida, &armadura, &velocidad, &veces, &ataque);
+            clase->idJugador = idJugador;
+            
+            if (resultado == 6) { // Deben extraerse 6 valores
+                clase->pos = posicionSala;
+                clase->vida = vida;
+                clase->armadura = armadura;
+                clase->velocidad = velocidad;
+                clase->veces = veces;
+                clase->ataque = ataque;
+                
+            } else {
+                fprintf(stderr, "Error al parsear los datos del JSON.\n");
+                sqlite3_finalize(stmt);
+               
+            }
+        } else {
+            fprintf(stderr, "No hay datos guardados para el jugador con ID %d.\n", idJugador);
+            sqlite3_finalize(stmt);
+            
+        }
+    } else {
+        fprintf(stderr, "Jugador no tiene una partida guardada.\n");
+        sqlite3_finalize(stmt);
+        
+    }
+
+    sqlite3_finalize(stmt);
+    
+}
+
+
+
+void mostrarPartidasGuardadas() {
+    if (!db) {
+        fprintf(stderr, "Error: La base de datos no está inicializada.\n");
+        return;
+    }
+
+    const char *sql = "SELECT J.id, J.nombre FROM Jugador AS J "
+                      "INNER JOIN Partidas AS P ON J.id = P.idJugador;";
+    sqlite3_stmt *stmt;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error preparando consulta: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+
+    printf("Partidas guardadas:\n");
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        int idJugador = sqlite3_column_int(stmt, 0);
+        const char *nombre = (const char *)sqlite3_column_text(stmt, 1);
+        printf("- ID: %d | Nombre: %s\n", idJugador, nombre);
+    }
+
+    sqlite3_finalize(stmt);
+}
+
+
 
 
 
