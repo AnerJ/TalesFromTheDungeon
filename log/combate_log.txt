@@ -1729,3 +1729,213 @@ Has hecho 5 de daño al Espectro Deambulante!
 Turno del Espectro Deambulante
 El Espectro Deambulante te ha hecho 7 de daño.
 GAME OVER!
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 10
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 1 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 9
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 2 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 7
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 9 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Golem
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 7
+Ataque: 2d8                  Ataque: 3d10
+Armadura: 7                   Armadura: 1
+Velocidad: 5                  Velocidad: 4
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 2 de daño al Golem!
+
+Turno del Golem
+El Golem te ha hecho 9 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 6                       Vida: 5
+Ataque: 2d8                  Ataque: 3d10
+Armadura: 7                   Armadura: 1
+Velocidad: 5                  Velocidad: 4
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 5 de daño al Golem!
+
+Turno del Golem
+El Golem te ha hecho 10 de daño.
+
+++++++++++++++++++++++++++++++
+*  Golem derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 10
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 1 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 9
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 2 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 7
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 9 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Golem
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 17                       Vida: 7
+Ataque: 2d8                  Ataque: 3d10
+Armadura: 5                   Armadura: 1
+Velocidad: 5                  Velocidad: 4
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 2 de daño al Golem!
+
+Turno del Golem
+El Golem te ha hecho 11 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 6                       Vida: 5
+Ataque: 2d8                  Ataque: 3d10
+Armadura: 5                   Armadura: 1
+Velocidad: 5                  Velocidad: 4
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 5 de daño al Golem!
+
+Turno del Golem
+El Golem te ha hecho 12 de daño.
+
+++++++++++++++++++++++++++++++
+*  Golem derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
