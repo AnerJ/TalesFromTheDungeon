@@ -153,11 +153,9 @@ void iniciarPartida(Clase *p, int salaActual){
 
         if (strlen(nombrePartida) > 0) {
             sqlite3 *db = inicializarBD();
-            if (!guardarPartida(db, nombrePartida, p->idJugador, pos)) {
+            int resultado = guardarPartida(db, nombrePartida, p->idJugador, pos);
+            if (resultado != SQLITE_OK) {
                 printf("❌ Error al guardar la partida.\n");
-            } else {
-                printf("💾 Partida guardada con éxito.\n");
-            }
             sqlite3_close(db);
         }
 
