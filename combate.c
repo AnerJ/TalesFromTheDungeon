@@ -4,7 +4,7 @@
 #include <time.h>
 #include "combate.h"
 #include "personaje.h"
-#include "salirDelJuego.h"
+#include "menus.h"
 #include <unistd.h>
 
 // Simulación de una tirada de dados
@@ -148,8 +148,8 @@ void turnoPersonaje(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
         system("cls");
         printf("Vas a bloquear el siguiente ataque con %d de armadura\n", jugador->armadura);
         fprintf(logFile, "Bloqueo con %d de armadura\n", jugador->armadura);
-    } else if (opcion == 5){
-        salir();
+    } else if (opcion == 4){
+        menuP();
     }
     sleep(1);
 }

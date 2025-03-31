@@ -5,7 +5,7 @@
 #include "combate.h"
 #include "datos.h"
 #include "mazmorra.h"
-#include "salirDelJuego.h"
+#include "menus.h"
 
 
 
@@ -44,6 +44,8 @@ void accionesM(int accion){
         printf("Fin del juego, has huido...");
         salir();
 
+    } else if (accion == 4){
+        menuP();
     }
 
 }

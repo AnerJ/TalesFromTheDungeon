@@ -14,6 +14,7 @@ int cargarEnemigos(Enemigo *enemigos, int cantidadEnemigos);
 int insertarJugador(const char *nombre, int idClase);
 void partidasCargadas(int id, Clase *clase);
 void mostrarPartidasGuardadas();
+void eliminarPartida(int idJugador);
 
 
 

@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "personaje.h"
+#include "menus.h"
 
 
 
@@ -27,7 +28,7 @@ void aumentoStats(Clase *p, int sala){
     } else if (sala == 3){
         printf("1. +10 de Ataque \n 2. +3 de Armadura \n 3. +10 de Vida\n");
 
-    }
+    } 
 
 
 
@@ -53,6 +54,8 @@ void aumentoStats(Clase *p, int sala){
 
         } else if (opcion == 3){
             p->vida += 2;
+        } else if (opcion == 4){
+            menuP();
         }
 
 
@@ -66,6 +69,8 @@ void aumentoStats(Clase *p, int sala){
 
         } else if (opcion == 3){
             p->vida += 5;
+        } else if (opcion == 4){
+            menuP();
         }
 
     } else if (sala == 3){
@@ -77,6 +82,8 @@ void aumentoStats(Clase *p, int sala){
 
         } else if (opcion == 3){
             p->vida += 10;
+        } else if (opcion == 4){
+            menuP();
         }
 
 

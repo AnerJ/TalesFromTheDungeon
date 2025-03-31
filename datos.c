@@ -501,6 +501,35 @@ void mostrarPartidasGuardadas() {
 }
 
 
+void eliminarPartida(int idJugador) {
+    if (!db) {
+        fprintf(stderr, "Error: La base de datos no está inicializada.\n");
+        return;
+    }
+
+    const char *sql = "DELETE FROM Partidas WHERE idJugador = ?;";
+    sqlite3_stmt *stmt;
+    
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error preparando eliminación: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+
+    sqlite3_bind_int(stmt, 1, idJugador);
+    
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_DONE) {
+        printf("Partida eliminada para ID %d.\n", idJugador);
+    } else {
+        fprintf(stderr, "Error eliminando la partida: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(stmt);
+}
+
+
+
 
 
 

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "personaje.h"
-#include "salirDelJuego.h"
+#include "menus.h"
 #include "datos.h"
 
 
@@ -96,7 +96,12 @@ Clase * crearPersonaje(){
             printf("\nHas elegido el Picaro");
             cargarClase(opcion2, personaje);
 
-        } else if (opcion2 == 5){
+        } else if (opcion2 == 4){
+            menuP();
+        }
+        
+        
+        else if (opcion2 == 5){
             salir();
         }
         personaje->pos = 0;
