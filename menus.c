@@ -161,15 +161,13 @@ void inciarPartida(Clase *p){
             aumentoStats(p, p->pos+ 1);
         }
 
-        p->pos ++;
 
-        
         if (p->pos + 1 == 3){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");
             sleep(3);
         }
 
-        
+        p->pos ++;
         
 
         if (p->pos == 3){
