@@ -123,9 +123,6 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
     fclose(logFile);
 }
 
-
-
-
 void turnoPersonaje(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
     printf("\nTurno del jugador\n");
     fprintf(logFile, "\nTurno del jugador\n");
@@ -136,9 +133,6 @@ void turnoPersonaje(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
     char c[10];
     fgets(c, 10, stdin);
     if (c[strlen(c) - 1] == '\n') c[strlen(c) - 1] = '\0';
-
-
-
 
     sscanf(c, "%d", &opcion);
 
@@ -160,7 +154,6 @@ void turnoPersonaje(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
     }
     sleep(1);
 }
-
 
 void turnoEnemigo(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
     printf("\nTurno del %s\n", enemigo->nombre);

@@ -5,9 +5,6 @@
 #include "personaje.h"
 #include "menus.h"
 
-
-
-
 void aumentoStats(Clase *p, int sala){
     char promt[10];
     int opcion;
@@ -29,9 +26,6 @@ void aumentoStats(Clase *p, int sala){
         printf("1. +10 de Ataque \n 2. +3 de Armadura \n 3. +10 de Vida\n");
 
     } 
-
-
-
 
     printf("Selecciona una opcion introduciendo el numero: \n");
     fgets(promt, 10, stdin);
@@ -85,9 +79,5 @@ void aumentoStats(Clase *p, int sala){
         } else if (opcion == 4){
             menuP();
         }
-
-
     }
-
-
 }

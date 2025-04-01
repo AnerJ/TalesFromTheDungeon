@@ -9,7 +9,6 @@
 #include "mazmorra.h"
 #include "progresion.h"
 
-
 void salir(){
     
     printf("\n=================================\n");
@@ -17,10 +16,8 @@ void salir(){
     printf("=================================\n\n");
     printf("\n\nSaliendo....\n");
     sleep(5);
-
     cerrarBD();
     exit(0);
-
 }
 
 void menuP(){
@@ -54,13 +51,7 @@ void menuP(){
         }
 
     } while (opcion != 3);
-
-
-
-
-
 }
-
 
 void mostrarMenu(){
     printf("\n=================================\n");
@@ -71,7 +62,6 @@ void mostrarMenu(){
     printf("2. Cargar Partida\n");
     printf("3. Salir\n\n");
 }
-
 
 void nuevaPartida(){
     printf("\n=================================\n");
@@ -88,14 +78,11 @@ void nuevaPartida(){
     inciarPartida(clase);
 }
 
-
 void cargarPartida(){
     printf("Cargando partida... \n");
     sleep(4);
     //Llamara al modulo para cargar una partida
     Clase *claseC = (Clase *)malloc(sizeof(Clase));
-
-    
     mostrarPartidasGuardadas();
     char nombreP[10];
     int eleccion;
@@ -119,8 +106,6 @@ void inciarPartida(Clase *p){
     int cantidadDeEnemigos = 4;
     Enemigo enemigos[4];
     cargarEnemigos(enemigos, cantidadDeEnemigos);
-
-    
     char txt[10];
     int accion;
     
@@ -128,7 +113,6 @@ void inciarPartida(Clase *p){
     sleep(2);
      
     while (p->vida > 0){
-
         mostrarMapa("ficheros/mazmorraMapa.txt", p->pos + 1);
 
         printf("Cual es tu siguiente accion: \n"
@@ -141,13 +125,8 @@ void inciarPartida(Clase *p){
             txt[strlen(txt)-1] = '\0';
         }
 
-
-        
-
-
         //Pasar el valor a entero
         sscanf(txt, "%d", &accion );
-
 
         if (accion == 5){
             salir();
@@ -161,7 +140,6 @@ void inciarPartida(Clase *p){
             aumentoStats(p, p->pos+ 1);
         }
 
-
         if (p->pos + 1 == 3){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");
             sleep(3);
@@ -169,7 +147,6 @@ void inciarPartida(Clase *p){
 
         p->pos ++;
         
-
         if (p->pos == 3){
             printf("Enhorabuena has terminado tu aventura");
             sleep(3);
@@ -185,4 +162,3 @@ void inciarPartida(Clase *p){
     }
     free(p);
 }
-
