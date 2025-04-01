@@ -135,20 +135,24 @@ void inciarPartida(Clase *p){
         accionesM(accion);
         Enemigo e = enemigos[p->pos];
         iniciarCombate( p, &e);
+
+        
         
         if (p->vida > 0){
             aumentoStats(p, p->pos+ 1);
         }
 
-        if (p->pos + 1 == 3){
+        p->pos ++;
+
+        if (p->pos  == 3){
             printf("El siguiente enemigo sera el jefe final de esta aventura\n");
             sleep(3);
         }
 
-        p->pos ++;
         
-        if (p->pos == 3){
-            printf("Enhorabuena has terminado tu aventura");
+        
+        if (p->pos == 4){
+            printf("Enhorabuena has terminado tu aventura\n");
             sleep(3);
             eliminarPartida(p->idJugador); //Elimina la partida una vez se acaba la mazmorra
 
