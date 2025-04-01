@@ -159,6 +159,7 @@ void inciarPartida(Clase *p){
         }
 
         guardarPartida(p->idJugador, p->pos, p->vida, p->armadura, p->velocidad, p->veces, p->ataque);
+        printf("\n+ Partida guardada +\n");
     }
     free(p);
 }

@@ -2338,3 +2338,102 @@ Bloqueo con 12 de armadura
 Turno del Espectro Deambulante
 El Espectro Deambulante te ha hecho 3 de daño.
 GAME OVER!
+
+++++++++++++++++++++++++++++++
++  Enemigo: Espectro Deambulante
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 14                       Vida: 13
+Ataque: 2d11                  Ataque: 5d4
+Armadura: 7                   Armadura: 5
+Velocidad: 5                  Velocidad: 2
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 14 de daño al Espectro Deambulante!
+
+++++++++++++++++++++++++++++++
+*  Espectro Deambulante derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 20                       Vida: 10
+Ataque: 1d12                  Ataque: 1d4
+Armadura: 7                   Armadura: 5
+Velocidad: 2                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 1 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 20                       Vida: 9
+Ataque: 1d12                  Ataque: 1d4
+Armadura: 7                   Armadura: 5
+Velocidad: 2                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 6 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 20                       Vida: 3
+Ataque: 1d12                  Ataque: 1d4
+Armadura: 7                   Armadura: 5
+Velocidad: 2                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 1 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 20                       Vida: 2
+Ataque: 1d12                  Ataque: 1d4
+Armadura: 7                   Armadura: 5
+Velocidad: 2                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 2 de daño al Esqueleto!
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
