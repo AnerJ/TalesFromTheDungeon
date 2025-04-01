@@ -68,7 +68,23 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
             fprintf(logFile, "El jugador es mas rapido que el enemigo, ataca primero\n");
             sleep(1);
             turnoPersonaje(jugador, enemigo, logFile);
+            if (enemigo->vida <= 0) {
+                printf("¡Has derrotado al %s!\n", enemigo->nombre);
+                fprintf(logFile, "\n++++++++++++++++++++++++++++++\n");
+                fprintf(logFile, "*  %s derrotado\n", enemigo->nombre);
+                fprintf(logFile, "++++++++++++++++++++++++++++++\n");
+                fprintf(logFile, "\n---------------------------------------------\n");
+                break;
+            }
             turnoEnemigo(jugador, enemigo, logFile);
+
+            if (jugador->vida <= 0) {
+                printf("Has sido derrotado!\n");
+                fprintf(logFile, "GAME OVER!\n");
+                salir();
+                break;
+            }
+            
 
         } else if (jugador->velocidad <= enemigo->velocidad){
             printf("El enemigo es mas rapido que tu\n");
@@ -84,29 +100,20 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
                 break;
             }
             turnoPersonaje(jugador, enemigo, logFile);
+            if (enemigo->vida <= 0) {
+                printf("¡Has derrotado al %s!\n", enemigo->nombre);
+                fprintf(logFile, "\n++++++++++++++++++++++++++++++\n");
+                fprintf(logFile, "*  %s derrotado\n", enemigo->nombre);
+                fprintf(logFile, "++++++++++++++++++++++++++++++\n");
+                fprintf(logFile, "\n---------------------------------------------\n");
+                break;
+            }
+
         }
         
 
         if (jugador->armadura != armaduraIncial){
             jugador->armadura = armaduraIncial;
-        }
-
-        
-
-        if (enemigo->vida <= 0) {
-            printf("¡Has derrotado al %s!\n", enemigo->nombre);
-            fprintf(logFile, "\n++++++++++++++++++++++++++++++\n");
-            fprintf(logFile, "*  %s derrotado\n", enemigo->nombre);
-            fprintf(logFile, "++++++++++++++++++++++++++++++\n");
-            fprintf(logFile, "\n---------------------------------------------\n");
-            break;
-        }
-
-        if (jugador->vida <= 0) {
-            printf("Has sido derrotado!\n");
-            fprintf(logFile, "GAME OVER!\n");
-            salir();
-            break;
         }
 
         // Fin del turno del enemigo
