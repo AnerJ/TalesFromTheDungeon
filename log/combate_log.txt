@@ -114,3 +114,119 @@ Has hecho 9 de daño al Esqueleto!
 ++++++++++++++++++++++++++++++
 
 ---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 10
+Ataque: 3d5                  Ataque: 1d4
+Armadura: 2                   Armadura: 5
+Velocidad: 8                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Bloqueo con 7 de armadura
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 10
+Ataque: 3d5                  Ataque: 1d4
+Armadura: 2                   Armadura: 5
+Velocidad: 8                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 4 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 13                       Vida: 6
+Ataque: 3d5                  Ataque: 1d4
+Armadura: 2                   Armadura: 5
+Velocidad: 8                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 8 de daño al Esqueleto!
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 10
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 1 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 9
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 2 de daño al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de daño.
+
+---------------------------------------------
+
+*****************
+Tu                            Enemigo
+ Vida: 15                       Vida: 7
+Ataque: 2d8                  Ataque: 1d4
+Armadura: 5                   Armadura: 5
+Velocidad: 5                  Velocidad: 1
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 9 de daño al Esqueleto!
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------

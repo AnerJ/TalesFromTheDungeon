@@ -6,6 +6,8 @@
 #include "datos.h"
 #include "mazmorra.h"
 #include "menus.h"
+#include <winsock2.h>
+
 
 
 
@@ -48,4 +50,20 @@ void accionesM(int accion){
         menuP();
     }
 
+}
+
+void mostrarMapaOnline(const char *rutaFichero, int pos, SOCKET sock) {
+    char linea[256];
+    FILE *f = fopen(rutaFichero, "r");
+    if (!f) return;
+
+    send(sock, "\n--- MAZMORRA ---\n", sizeof("\n--- MAZMORRA ---\n"), 0);
+    while (fgets(linea, sizeof(linea), f)) {
+        send(sock, linea, strlen(linea), 0);
+    }
+    fclose(f);
+
+    char buff[128];
+    snprintf(buff, sizeof(buff), "Estas en la sala %d\n", pos);
+    send(sock, buff, sizeof(buff), 0);
 }

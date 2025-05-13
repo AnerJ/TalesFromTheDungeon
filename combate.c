@@ -6,6 +6,8 @@
 #include "personaje.h"
 #include "menus.h"
 #include <unistd.h>
+#include <winsock2.h>
+
 
 // Simulación de una tirada de dados
 int lanzar_dado(int veces, int danyo) {
@@ -169,3 +171,63 @@ void turnoEnemigo(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
     sleep(1);
 }
 
+void iniciarCombateOnline(Clase *jugador, Enemigo *enemigo, SOCKET sock) {
+    char sendBuff[1024];
+    FILE *logFile = fopen("log/combate_log.txt", "a");
+    if (!logFile) return;
+
+    snprintf(sendBuff, sizeof(sendBuff), "\n¡Un %s ha aparecido!\nEl combate comienza...\n", enemigo->nombre);
+    send(sock, sendBuff, sizeof(sendBuff), 0);
+
+    while (jugador->vida > 0 && enemigo->vida > 0) {
+        snprintf(sendBuff, sizeof(sendBuff),
+            "\nTu Vida: %d | Armadura: %d | Velocidad: %d\n"
+            "Enemigo Vida: %d | Armadura: %d | Velocidad: %d\n",
+            jugador->vida, jugador->armadura, jugador->velocidad,
+            enemigo->vida, enemigo->armadura, enemigo->velocidad);
+        send(sock, sendBuff, sizeof(sendBuff), 0);
+
+        if (jugador->velocidad >= enemigo->velocidad) {
+            send(sock, "\nAtacas primero\n", sizeof("\nAtacas primero\n"), 0);
+            turnoPersonajeOnline(jugador, enemigo, logFile, sock);
+            if (enemigo->vida <= 0) break;
+            turnoEnemigoOnline(jugador, enemigo, logFile, sock);
+        } else {
+            send(sock, "\nEl enemigo ataca primero\n", sizeof("\nEl enemigo ataca primero\n"), 0);
+            turnoEnemigoOnline(jugador, enemigo, logFile, sock);
+            if (jugador->vida <= 0) break;
+            turnoPersonajeOnline(jugador, enemigo, logFile, sock);
+        }
+    }
+    fclose(logFile);
+}
+
+void turnoPersonajeOnline(Clase *jugador, Enemigo *enemigo, FILE *logFile, SOCKET sock) {
+    char sendBuff[512], recvBuff[64];
+    int opcion;
+
+    strcpy(sendBuff, "\nTurno del jugador:\n1. Atacar\n2. Defender\n> ");
+    send(sock, sendBuff, sizeof(sendBuff), 0);
+    recv(sock, recvBuff, sizeof(recvBuff), 0);
+    sscanf(recvBuff, "%d", &opcion);
+
+    if (opcion == 1) {
+        int danyo = lanzar_dado(jugador->veces, jugador->ataque) - enemigo->armadura;
+        if (danyo < 0) danyo = 0;
+        enemigo->vida -= danyo;
+        snprintf(sendBuff, sizeof(sendBuff), "\nHas hecho %d de daño al %s\n", danyo, enemigo->nombre);
+    } else {
+        jugador->armadura += 5;
+        snprintf(sendBuff, sizeof(sendBuff), "\nTe defiendes. Armadura +5 -> %d\n", jugador->armadura);
+    }
+    send(sock, sendBuff, sizeof(sendBuff), 0);
+}
+
+void turnoEnemigoOnline(Clase *jugador, Enemigo *enemigo, FILE *logFile, SOCKET sock) {
+    char sendBuff[512];
+    int danyo = lanzar_dado(enemigo->veces, enemigo->ataque) - jugador->armadura;
+    if (danyo < 0) danyo = 0;
+    jugador->vida -= danyo;
+    snprintf(sendBuff, sizeof(sendBuff), "\nEl %s te ha hecho %d de daño.\n", enemigo->nombre, danyo);
+    send(sock, sendBuff, sizeof(sendBuff), 0);
+}

@@ -8,6 +8,8 @@
 #include "datos.h"
 #include "mazmorra.h"
 #include "progresion.h"
+#include <winsock2.h>
+
 
 void salir(){
     
@@ -164,6 +166,55 @@ void inciarPartida(Clase *p){
 
         guardarPartida(p->idJugador, p->pos, p->vida, p->armadura, p->velocidad, p->veces, p->ataque);
         printf("\n+ Partida guardada +\n");
+    }
+    free(p);
+}
+
+void inciarPartidaOnline(Clase *p, SOCKET sock) {
+    int cantidadDeEnemigos = 4;
+    Enemigo enemigos[4];
+    cargarEnemigos(enemigos, cantidadDeEnemigos);
+
+    char sendBuff[1024];
+    char recvBuff[128];
+    int accion;
+
+    snprintf(sendBuff, sizeof(sendBuff), "\nTe adentras a la mazmorra...\n");
+    send(sock, sendBuff, sizeof(sendBuff), 0);
+
+    while (p->vida > 0) {
+        mostrarMapaOnline("ficheros/mazmorraMapa.txt", p->pos + 1, sock);
+
+        strcpy(sendBuff, "\nCual es tu siguiente accion:\n1. Avanzar\n2. Huir\n> ");
+        send(sock, sendBuff, sizeof(sendBuff), 0);
+        recv(sock, recvBuff, sizeof(recvBuff), 0);
+        sscanf(recvBuff, "%d", &accion);
+
+        accionesM(accion); 
+
+        Enemigo e = enemigos[p->pos];
+        iniciarCombateOnline(p, &e, sock);
+
+        if (p->vida > 0) {
+            aumentoStatsOnline(p, p->pos + 1, sock);
+        }
+
+        p->pos++;
+        if (p->pos == 3) {
+            strcpy(sendBuff, "\nEl siguiente enemigo sera el jefe final...\n");
+            send(sock, sendBuff, sizeof(sendBuff), 0);
+        }
+        if (p->pos == 4) {
+            strcpy(sendBuff, "\n¡Enhorabuena! Has completado la mazmorra.\n");
+            send(sock, sendBuff, sizeof(sendBuff), 0);
+            eliminarPartida(p->idJugador);
+            free(p);
+            salir();
+            break;
+        }
+
+        guardarPartida(p->idJugador, p->pos, p->vida, p->armadura, p->velocidad, p->veces, p->ataque);
+        send(sock, "\n+ Partida guardada +\n", sizeof("\n+ Partida guardada +\n"), 0);
     }
     free(p);
 }
