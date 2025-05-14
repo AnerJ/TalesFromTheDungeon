@@ -53,17 +53,20 @@ void accionesM(int accion){
 }
 
 void mostrarMapaOnline(const char *rutaFichero, int pos, SOCKET sock) {
-    char linea[256];
-    FILE *f = fopen(rutaFichero, "r");
-    if (!f) return;
+    FILE *archivo = fopen(rutaFichero, "r");
+    if (!archivo) return;
 
-    send(sock, "\n--- MAZMORRA ---\n", sizeof("\n--- MAZMORRA ---\n"), 0);
-    while (fgets(linea, sizeof(linea), f)) {
-        send(sock, linea, strlen(linea), 0);
+    char linea[256], salida[4096] = "\0";
+    int fila = 0;
+    while (fgets(linea, sizeof(linea), archivo)) {
+        if (fila == pos - 1) {
+            strcat(salida, "-> ");
+        } else {
+            strcat(salida, "   ");
+        }
+        strcat(salida, linea);
+        fila++;
     }
-    fclose(f);
-
-    char buff[128];
-    snprintf(buff, sizeof(buff), "Estas en la sala %d\n", pos);
-    send(sock, buff, sizeof(buff), 0);
+    fclose(archivo);
+    send(sock, salida, strlen(salida), 0);
 }

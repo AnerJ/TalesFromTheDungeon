@@ -203,31 +203,52 @@ void iniciarCombateOnline(Clase *jugador, Enemigo *enemigo, SOCKET sock) {
 }
 
 void turnoPersonajeOnline(Clase *jugador, Enemigo *enemigo, FILE *logFile, SOCKET sock) {
-    char sendBuff[512], recvBuff[64];
-    int opcion;
+    char sendBuff[1024], recvBuff[1024];
+    int totalDano = 0;
 
-    strcpy(sendBuff, "\nTurno del jugador:\n1. Atacar\n2. Defender\n> ");
-    send(sock, sendBuff, sizeof(sendBuff), 0);
+    snprintf(sendBuff, sizeof(sendBuff),
+        "\nEs tu turno.\n1. Atacar\n2. Pasar turno\n> ");
+    send(sock, sendBuff, strlen(sendBuff), 0);
     recv(sock, recvBuff, sizeof(recvBuff), 0);
-    sscanf(recvBuff, "%d", &opcion);
+    int opcion = atoi(recvBuff);
 
     if (opcion == 1) {
-        int danyo = lanzar_dado(jugador->veces, jugador->ataque) - enemigo->armadura;
-        if (danyo < 0) danyo = 0;
-        enemigo->vida -= danyo;
-        snprintf(sendBuff, sizeof(sendBuff), "\nHas hecho %d de daño al %s\n", danyo, enemigo->nombre);
+        for (int i = 0; i < jugador->veces; i++) {
+            int golpe = rand() % jugador->ataque + 1;
+            totalDano += golpe;
+        }
+        int danoFinal = totalDano - enemigo->armadura;
+        if (danoFinal < 0) danoFinal = 0;
+        enemigo->vida -= danoFinal;
+
+        snprintf(sendBuff, sizeof(sendBuff), "\nHas causado %d de daño. Vida restante del enemigo: %d\n",
+                 danoFinal, enemigo->vida);
+        send(sock, sendBuff, strlen(sendBuff), 0);
+
+        fprintf(logFile, "Jugador inflige %d de daño. Vida del enemigo: %d\n", danoFinal, enemigo->vida);
     } else {
-        jugador->armadura += 5;
-        snprintf(sendBuff, sizeof(sendBuff), "\nTe defiendes. Armadura +5 -> %d\n", jugador->armadura);
+        snprintf(sendBuff, sizeof(sendBuff), "\nDecidiste no atacar este turno.\n");
+        send(sock, sendBuff, strlen(sendBuff), 0);
+        fprintf(logFile, "Jugador pasó el turno.\n");
     }
-    send(sock, sendBuff, sizeof(sendBuff), 0);
 }
 
 void turnoEnemigoOnline(Clase *jugador, Enemigo *enemigo, FILE *logFile, SOCKET sock) {
-    char sendBuff[512];
-    int danyo = lanzar_dado(enemigo->veces, enemigo->ataque) - jugador->armadura;
-    if (danyo < 0) danyo = 0;
-    jugador->vida -= danyo;
-    snprintf(sendBuff, sizeof(sendBuff), "\nEl %s te ha hecho %d de daño.\n", enemigo->nombre, danyo);
-    send(sock, sendBuff, sizeof(sendBuff), 0);
+    char sendBuff[1024];
+    int totalDano = 0;
+
+    for (int i = 0; i < enemigo->veces; i++) {
+        int golpe = rand() % enemigo->ataque + 1;
+        totalDano += golpe;
+    }
+    int danoFinal = totalDano - jugador->armadura;
+    if (danoFinal < 0) danoFinal = 0;
+    jugador->vida -= danoFinal;
+
+    snprintf(sendBuff, sizeof(sendBuff), "\n%s te ha causado %d de daño. Tu vida restante: %d\n",
+             enemigo->nombre, danoFinal, jugador->vida);
+    send(sock, sendBuff, strlen(sendBuff), 0);
+
+    fprintf(logFile, "Enemigo %s inflige %d de daño. Vida del jugador: %d\n",
+            enemigo->nombre, danoFinal, jugador->vida);
 }

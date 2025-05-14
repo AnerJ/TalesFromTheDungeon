@@ -173,24 +173,34 @@ void inciarPartida(Clase *p){
 void inciarPartidaOnline(Clase *p, SOCKET sock) {
     int cantidadDeEnemigos = 4;
     Enemigo enemigos[4];
-    cargarEnemigos(enemigos, cantidadDeEnemigos);
-
-    char sendBuff[1024];
-    char recvBuff[128];
+    char sendBuff[1024], recvBuff[128];
     int accion;
 
-    snprintf(sendBuff, sizeof(sendBuff), "\nTe adentras a la mazmorra...\n");
-    send(sock, sendBuff, sizeof(sendBuff), 0);
+    cargarEnemigos(enemigos, cantidadDeEnemigos);
+
+    send(sock, "\nTe adentras a la mazmorra...\n", strlen("\nTe adentras a la mazmorra...\n"), 0);
+    Sleep(2000);
 
     while (p->vida > 0) {
         mostrarMapaOnline("ficheros/mazmorraMapa.txt", p->pos + 1, sock);
 
-        strcpy(sendBuff, "\nCual es tu siguiente accion:\n1. Avanzar\n2. Huir\n> ");
-        send(sock, sendBuff, sizeof(sendBuff), 0);
+        strcpy(sendBuff, "Cual es tu siguiente accion:\n1. Avanzar\n2. Huir\n> ");
+        send(sock, sendBuff, strlen(sendBuff), 0);
+
+        memset(recvBuff, 0, sizeof(recvBuff));
         recv(sock, recvBuff, sizeof(recvBuff), 0);
+
+        if (recvBuff[strlen(recvBuff) - 1] == '\n') {
+            recvBuff[strlen(recvBuff) - 1] = '\0';
+        }
         sscanf(recvBuff, "%d", &accion);
 
-        accionesM(accion); 
+        if (accion == 5) {
+            salir();
+            break;
+        }
+
+        accionesM(accion);
 
         Enemigo e = enemigos[p->pos];
         iniciarCombateOnline(p, &e, sock);
@@ -200,13 +210,17 @@ void inciarPartidaOnline(Clase *p, SOCKET sock) {
         }
 
         p->pos++;
+
         if (p->pos == 3) {
-            strcpy(sendBuff, "\nEl siguiente enemigo sera el jefe final...\n");
-            send(sock, sendBuff, sizeof(sendBuff), 0);
+            strcpy(sendBuff, "El siguiente enemigo sera el jefe final de esta aventura\n");
+            send(sock, sendBuff, strlen(sendBuff), 0);
+            Sleep(3000);
         }
+
         if (p->pos == 4) {
-            strcpy(sendBuff, "\n¡Enhorabuena! Has completado la mazmorra.\n");
-            send(sock, sendBuff, sizeof(sendBuff), 0);
+            strcpy(sendBuff, "Enhorabuena has terminado tu aventura\n");
+            send(sock, sendBuff, strlen(sendBuff), 0);
+            Sleep(3000);
             eliminarPartida(p->idJugador);
             free(p);
             salir();
@@ -214,7 +228,9 @@ void inciarPartidaOnline(Clase *p, SOCKET sock) {
         }
 
         guardarPartida(p->idJugador, p->pos, p->vida, p->armadura, p->velocidad, p->veces, p->ataque);
-        send(sock, "\n+ Partida guardada +\n", sizeof("\n+ Partida guardada +\n"), 0);
+        strcpy(sendBuff, "\n+ Partida guardada +\n");
+        send(sock, sendBuff, strlen(sendBuff), 0);
     }
+
     free(p);
 }
