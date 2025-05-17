@@ -39,24 +39,30 @@ int main() {
     printf("Conectado al servidor %s:%d\n\n", SERVER_IP, SERVER_PORT);
 
     while (1) {
+        // LIMPIAR buffer de recepción
         memset(recvBuff, 0, BUFFER);
+
         int bytes = recv(sock, recvBuff, BUFFER - 1, 0);
         if (bytes <= 0) {
             printf("Conexión cerrada por el servidor.\n");
             break;
         }
 
-        recvBuff[bytes] = '\0';
+        recvBuff[bytes] = '\0';  // Asegurar terminación
         printf("%s", recvBuff);
         fflush(stdout);
 
+        // Esperar entrada solo si hay un '>' al final
         if (strrchr(recvBuff, '>') != NULL) {
             printf("[CLIENTE] Prompt detectado. Esperando entrada...\n");
+
+            // LIMPIAR buffer de envío
             memset(sendBuff, 0, BUFFER);
             fgets(sendBuff, BUFFER, stdin);
-            sendBuff[strcspn(sendBuff, "\n")] = 0;
-        
-            if (send(sock, sendBuff, BUFFER, 0) == SOCKET_ERROR) {
+            sendBuff[strcspn(sendBuff, "\n")] = '\0';  // eliminar \n
+
+            // ENVIAR SOLO LO ESCRITO, no el buffer completo
+            if (send(sock, sendBuff, strlen(sendBuff), 0) == SOCKET_ERROR) {
                 printf("Error al enviar datos al servidor.\n");
                 break;
             }

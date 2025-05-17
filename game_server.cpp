@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <winsock2.h>
+#include "sqlite3.h"
 
 extern "C" {
     #include "personaje.h"
@@ -64,7 +65,7 @@ int main() {
     printf("Cliente conectado desde %s:%d\n",
         inet_ntoa(client.sin_addr), ntohs(client.sin_port));
 
-    // Paso 1: Enviar menú
+    // Enviar menú principal
     strcpy(sendBuff,
         "\n=================================\n"
         "        TALES FROM THE DUNGEON\n"
@@ -72,24 +73,34 @@ int main() {
         "1. Nueva Partida -> CREAR_PARTIDA\n"
         "2. Cargar Partida -> CARGAR_PARTIDA;<idJugador>\n"
         "3. Salir -> SALIR\n\n> ");
-    send(comm_socket, sendBuff, sizeof(sendBuff), 0);
+    send(comm_socket, sendBuff, strlen(sendBuff), 0);
 
-    // Paso 2: Recibir comando
+    // Recibir comando
     memset(recvBuff, 0, sizeof(recvBuff));
-    recv(comm_socket, recvBuff, sizeof(recvBuff), 0);
+    recv(comm_socket, recvBuff, sizeof(recvBuff) - 1, 0);
+    recvBuff[strcspn(recvBuff, "\n")] = '\0';
 
-    // Paso 3: Interpretar comando
+    // Interpretar comando
     if (strncmp(recvBuff, "CREAR_PARTIDA", 13) == 0) {
-        char nombre[50];
-        int claseID;
+        char nombre[50] = {0};
+        int claseID = 0;
 
-        // Solicitar nombre
+        // Pedir nombre
         strcpy(sendBuff, "\n===============\n Creacion de Personaje\n===============\n\nDime tu nombre valiente aventurero:\n> ");
-        send(comm_socket, sendBuff, sizeof(sendBuff), 0);
-        recv(comm_socket, recvBuff, sizeof(recvBuff), 0);
-        sscanf(recvBuff, "%49[^\n]", nombre);
+        send(comm_socket, sendBuff, strlen(sendBuff), 0);
+        memset(recvBuff, 0, sizeof(recvBuff));
+        recv(comm_socket, recvBuff, sizeof(recvBuff) - 1, 0);
+        recvBuff[strcspn(recvBuff, "\n")] = '\0';
+        strncpy(nombre, recvBuff, sizeof(nombre) - 1);
 
-        // Solicitar clase
+        // Sanitizar nombre
+        for (int i = 0; i < strlen(nombre); i++) {
+            if ((unsigned char)nombre[i] < 32 || (unsigned char)nombre[i] > 126) {
+                nombre[i] = '?';
+            }
+        }
+
+        // Pedir clase
         strcpy(sendBuff,
             "*****************\n"
             "| 1. Guerrero   |\n"
@@ -113,45 +124,89 @@ int main() {
             "| Velocidad: 8  |\n"
             "*****************\n\n"
             "Elige una clase:\n> ");
-        send(comm_socket, sendBuff, sizeof(sendBuff), 0);
-        recv(comm_socket, recvBuff, sizeof(recvBuff), 0);
+        send(comm_socket, sendBuff, strlen(sendBuff), 0);
+
+        memset(recvBuff, 0, sizeof(recvBuff));
+        recv(comm_socket, recvBuff, sizeof(recvBuff) - 1, 0);
+        recvBuff[strcspn(recvBuff, "\n")] = '\0';
         sscanf(recvBuff, "%d", &claseID);
 
+        if (claseID < 1 || claseID > 3) {
+            strcpy(sendBuff, "ERROR: Clase no válida. Elige 1, 2 o 3.\n");
+            send(comm_socket, sendBuff, strlen(sendBuff), 0);
+            closesocket(comm_socket);
+            cerrarBD();
+            WSACleanup();
+            return -1;
+        }
+
         Clase *pj = (Clase *)malloc(sizeof(Clase));
+        if (!pj) {
+            strcpy(sendBuff, "ERROR: No se pudo crear el personaje.\n");
+            send(comm_socket, sendBuff, strlen(sendBuff), 0);
+            return -1;
+        }
+
+        memset(pj, 0, sizeof(Clase));
         strncpy(pj->nombre, nombre, sizeof(pj->nombre) - 1);
         pj->nombre[sizeof(pj->nombre) - 1] = '\0';
+
         pj->idJugador = insertarJugador(nombre, claseID);
-        cargarClase(claseID, pj);
+        if (pj->idJugador < 0) {
+            strcpy(sendBuff, "ERROR: No se pudo registrar el jugador.\n");
+            send(comm_socket, sendBuff, strlen(sendBuff), 0);
+            free(pj);
+            return -1;
+        }
+
+        if (cargarClase(claseID, pj) != SQLITE_OK) {
+            strcpy(sendBuff, "ERROR: No se pudo cargar la clase.\n");
+            send(comm_socket, sendBuff, strlen(sendBuff), 0);
+            free(pj);
+            return -1;
+        }
+
         pj->pos = 0;
 
         snprintf(sendBuff, sizeof(sendBuff),
             "\nPersonaje creado:\nNombre: %s\nClase ID: %d\nVida: %d\nArmadura: %d\nVelocidad: %d\nAtaque: %dd%d\n\n",
             pj->nombre, claseID, pj->vida, pj->armadura, pj->velocidad, pj->veces, pj->ataque);
-        send(comm_socket, sendBuff, sizeof(sendBuff), 0);
+        send(comm_socket, sendBuff, strlen(sendBuff), 0);
 
-        // Ejecutar partida online
+        // Comenzar partida online
         inciarPartidaOnline(pj, comm_socket);
     }
+
     else if (strncmp(recvBuff, "CARGAR_PARTIDA;", 15) == 0) {
         int id;
         sscanf(recvBuff, "CARGAR_PARTIDA;%d", &id);
+
         Clase *pj = (Clase *)malloc(sizeof(Clase));
+        if (!pj) {
+            strcpy(sendBuff, "ERROR: No se pudo reservar memoria para el personaje.\n");
+            send(comm_socket, sendBuff, strlen(sendBuff), 0);
+            return -1;
+        }
+
+        memset(pj, 0, sizeof(Clase));
         partidasCargadas(id, pj);
 
         snprintf(sendBuff, sizeof(sendBuff),
             "\nPartida cargada:\nNombre: %s\nID: %d\nSala: %d\nVida: %d\nArmadura: %d\nVelocidad: %d\nAtaque: %dd%d\n",
             pj->nombre, pj->idJugador, pj->pos, pj->vida, pj->armadura, pj->velocidad, pj->veces, pj->ataque);
-        send(comm_socket, sendBuff, sizeof(sendBuff), 0);
+        send(comm_socket, sendBuff, strlen(sendBuff), 0);
 
         inciarPartidaOnline(pj, comm_socket);
     }
+
     else if (strcmp(recvBuff, "SALIR") == 0) {
         strcpy(sendBuff, "Gracias por jugar. ¡Hasta la próxima!\n");
-        send(comm_socket, sendBuff, sizeof(sendBuff), 0);
+        send(comm_socket, sendBuff, strlen(sendBuff), 0);
     }
+
     else {
         strcpy(sendBuff, "ERROR: Comando no reconocido.\n");
-        send(comm_socket, sendBuff, sizeof(sendBuff), 0);
+        send(comm_socket, sendBuff, strlen(sendBuff), 0);
     }
 
     // Cerrar conexión
