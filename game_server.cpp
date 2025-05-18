@@ -70,7 +70,7 @@ int main() {
         "\n=================================\n"
         "        TALES FROM THE DUNGEON\n"
         "=================================\n\n"
-        "1. Nueva Partida -> CREAR_PARTIDA\n"
+        "1. Nueva Partida -> CREAR_PARTIDA(Cambiar por el numero 1)\n"
         "2. Cargar Partida -> CARGAR_PARTIDA;<idJugador>\n"
         "3. Salir -> SALIR\n\n> ");
     send(comm_socket, sendBuff, strlen(sendBuff), 0);
