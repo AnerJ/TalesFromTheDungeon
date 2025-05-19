@@ -2,7 +2,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <winsock2.h>
+#include <stdio.h>
 #include "sqlite3.h"
+#include <iostream>
 
 extern "C" {
     #include "personaje.h"
