@@ -5,107 +5,92 @@
 #include "personaje.h"
 #include "menus.h"
 #include "datos.h"
-
-
+#include "interfaz.h"  // Para enviarTexto y getInput
 
 Clase * crearPersonaje(){
     Clase * personaje = NULL;
     personaje = (Clase*) malloc (sizeof(Clase));
-    printf("\n===============\n"
-            "Creacion de Personaje\n"
-            "===============\n");
-    sleep(2);
-    printf("\nDime tu nombre valiente aventurero: \n");
-    
 
+    enviarTexto("\n===============\n");
+    enviarTexto("Creacion de Personaje\n");
+    enviarTexto("===============\n");
+    sleep(2);
+    enviarTexto("\nDime tu nombre valiente aventurero: \n");
 
     char nombre[10];
-    //char* nombre1;
-    
-    fgets(nombre, sizeof(nombre), stdin);
-    
+    getInput(nombre, sizeof(nombre));
 
-        //Eliminar el salto de linea
-    if( nombre[strlen(nombre)-1] == '\n'){
-            nombre[strlen(nombre)-1] = '\0';
+    if (nombre[strlen(nombre)-1] == '\n') {
+        nombre[strlen(nombre)-1] = '\0';
     }
 
-    //sscanf(nombre, "%c", &nombre1 );
+    enviarTexto("Valiente aventurero ");
+    enviarTexto(nombre);
+    enviarTexto(", Elige tu clase: \n");
 
-    
-    printf("Valiente aventurero %s, Elige tu clase: \n", nombre);
+
     strcpy(personaje->nombre, nombre);
 
-    printf("\n*****************\n"
-        "| 1. Guerrero   |\n"
-        "| Ataque: 1d12  |\n"
-        "| Armadura: 7   |\n"
-        "| Vida: 20      |\n"
-        "| Velocidad: 2  |\n"
-        "*****************\n");
+    enviarTexto("\n*****************\n");
+    enviarTexto("| 1. Guerrero   |\n");
+    enviarTexto("| Ataque: 1d12  |\n");
+    enviarTexto("| Armadura: 7   |\n");
+    enviarTexto("| Vida: 20      |\n");
+    enviarTexto("| Velocidad: 2  |\n");
+    enviarTexto("*****************\n");
     sleep(2);
-         
-    printf("\n*****************\n"
-        "| 2. Cazador    |\n"
-        "| Ataque: 2d8   |\n"
-        "| Armadura: 5   |\n"
-        "| Vida: 15      |\n"
-        "| Velocidad: 5  |\n"
-        "*****************\n");
+
+    enviarTexto("\n*****************\n");
+    enviarTexto("| 2. Cazador    |\n");
+    enviarTexto("| Ataque: 2d8   |\n");
+    enviarTexto("| Armadura: 5   |\n");
+    enviarTexto("| Vida: 15      |\n");
+    enviarTexto("| Velocidad: 5  |\n");
+    enviarTexto("*****************\n");
     sleep(2);
-    
-    printf("\n*****************\n"
-        "| 3. Picaro     |\n"
-        "| Ataque: 3d5   |\n"
-        "| Armadura: 2   |\n"
-        "| Vida: 13      |\n"
-        "| Velocidad: 8  |\n"
-        "*****************\n");
-    sleep(2); 
 
-    printf("\nElige una clase: \n");
+    enviarTexto("\n*****************\n");
+    enviarTexto("| 3. Picaro     |\n");
+    enviarTexto("| Ataque: 3d5   |\n");
+    enviarTexto("| Armadura: 2   |\n");
+    enviarTexto("| Vida: 13      |\n");
+    enviarTexto("| Velocidad: 8  |\n");
+    enviarTexto("*****************\n");
+    sleep(2);
 
+    enviarTexto("\nElige una clase: \n");
 
     char promt2[10];
     int opcion2;
-    
-    fgets(promt2, 10, stdin);
+    getInput(promt2, 10);
 
-        //Eliminar el salto de linea
-    if( promt2[strlen(promt2)-1] == '\n'){
-            promt2[strlen(promt2)-1] = '\0';
+    if (promt2[strlen(promt2)-1] == '\n') {
+        promt2[strlen(promt2)-1] = '\0';
     }
 
-    
+    sscanf(promt2, "%d", &opcion2);
 
+    if (opcion2 == 1) {
+        enviarTexto("\nHas elegido el Guerrero\n\n");
+        cargarClase(opcion2, personaje);
 
-    //Pasar el valor a entero
-    sscanf(promt2, "%d", &opcion2 );
+    } else if (opcion2 == 2) {
+        enviarTexto("\nHas elegido el Cazador\n");
+        cargarClase(opcion2, personaje);
 
-        if (opcion2 == 1)
-        {
-            system("cls");
-            printf("\nHas elegido el Guerrero\n\n");
-            cargarClase(opcion2, personaje);
-            
-        } else if (opcion2 == 2){
-            printf("\nHas elegido el Cazador\n");
-            cargarClase(opcion2, personaje);
+    } else if (opcion2 == 3) {
+        enviarTexto("\nHas elegido el Picaro\n");
+        cargarClase(opcion2, personaje);
 
-        } else if (opcion2 == 3){
-            printf("\nHas elegido el Picaro");
-            cargarClase(opcion2, personaje);
+    } else if (opcion2 == 4) {
+        menuP();
 
-        } else if (opcion2 == 4){
-            menuP();
-        }
-        
-        
-        else if (opcion2 == 5){
-            salir();
-        }
-        personaje->pos = 0;
-        personaje->idJugador =insertarJugador(nombre, opcion2);
+    } else if (opcion2 == 5) {
+        salir();
+    }
 
-        return personaje;
+    personaje->pos = 0;
+    personaje->idJugador = insertarJugador(nombre, opcion2);
+
+    return personaje;
 }

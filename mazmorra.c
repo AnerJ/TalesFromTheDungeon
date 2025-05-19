@@ -6,42 +6,39 @@
 #include "datos.h"
 #include "mazmorra.h"
 #include "menus.h"
-
-
+#include "interfaz.h"
 
 void mostrarMapa(const char *nombreFichero, int pos){
-    //Aqui se cargara desde un fichero de texto la estructura de la mazmorra y se mostrara en la partida
-    //Recibe un integer para saber en que posicion de la mazmorra esta
-    FILE *fichero = fopen(nombreFichero, "r");  // Abrir el fichero en modo lectura
+    FILE *fichero = fopen(nombreFichero, "r");
     if (!fichero) {
-        printf("Error: No se pudo abrir el fichero %s.\n", nombreFichero);
+        char error[128];
+        snprintf(error, sizeof(error), "Error: No se pudo abrir el fichero %s.\n", nombreFichero);
+        enviarTexto(error);
         return;
     }
 
-    char linea[256];  // Buffer para almacenar cada línea del fichero
+    char linea[256];
     while (fgets(linea, sizeof(linea), fichero)) {
-        printf("%s", linea);  // Mostrar la línea en la terminal
+        enviarTexto(linea);
     }
 
     fclose(fichero);
 
-    printf("Estas en la sala %i\n", pos);
+    char salaInfo[64];
+    snprintf(salaInfo, sizeof(salaInfo), "Estas en la sala %d\n", pos);
+    enviarTexto(salaInfo);
 }
 
 
 
 void accionesM(int accion){
-    //Esta sera para preguntarle al jugador que acciones querra hacer
-    //Por lo general sera solo avanzar y luego saltara el combate por zona
-    //Si nos vemos capaces luego metemos la exploracion por sala pero por ahora que funcione lo basico
-    //Recibe un int para saber lo que quiere hacer el jugador
+    
 
     if (accion == 1){
-        printf("Avanzas a la siguiente sala...");
-
+        enviarTexto("Avanzas a la siguiente sala...\n");
     }
     else if (accion == 2){
-        printf("Fin del juego, has huido...");
+        enviarTexto("Fin del juego, has huido...\n");
         salir();
 
     } else if (accion == 4){

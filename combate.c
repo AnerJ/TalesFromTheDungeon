@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 #include "combate.h"
 #include "personaje.h"
 #include "menus.h"
-#include <unistd.h>
+#include "interfaz.h"
 
-// Simulación de una tirada de dados
+
 int lanzar_dado(int veces, int danyo) {
     int resultado = 0;
     for (int i = 0; i < veces; i++) {
@@ -16,107 +17,98 @@ int lanzar_dado(int veces, int danyo) {
     return resultado;
 }
 
-// Función de combate por turnos
+
 void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
     FILE *logFile = fopen("log/combate_log.txt", "a");
     if (logFile == NULL) {
-        printf("Error al abrir el archivo de log.\n");
+        enviarTexto("Error al abrir el archivo de log.\n");
         return;
     }
-    fprintf(logFile, "\n++++++++++++++++++++++++++++++\n");
-    fprintf(logFile, "+  Enemigo: %s\n", enemigo->nombre);
-    fprintf(logFile, "++++++++++++++++++++++++++++++\n");
-    fprintf(logFile, "\n---------------------------------------------\n");
+    
 
-    printf("\n¡Un %s ha aparecido!\n", enemigo->nombre);
-    printf("El combate comienza...\n");
 
-    // Bucle del combate
+
+
+
+    char buffer[512];
+    snprintf(buffer, sizeof(buffer), "\n++++++++++++++++++++++++++++++\n+  Enemigo: %s\n++++++++++++++++++++++++++++++\n\n---------------------------------------------\n", enemigo->nombre);
+    enviarTexto(buffer);
+    fprintf(logFile, "%s", buffer);
+
+    snprintf(buffer, sizeof(buffer), "\n\n\u00a1Un %s ha aparecido!\nEl combate comienza...\n", enemigo->nombre);
+    enviarTexto(buffer);
+
     while (jugador->vida > 0 && enemigo->vida > 0) {
         sleep(1);
-        printf("\n*****************\n");
+        enviarTexto("\n*****************\n");
         fprintf(logFile, "\n*****************\n");
 
-        //Enseñamos las estadisticas
-        printf(" Tus estadisticas               Estadisticas del Enemigo\n "
+        snprintf(buffer, sizeof(buffer),
+            " Tus estadisticas               Estadisticas del Enemigo\n "
             "Vida: %d                       Vida: %d\n"
             " Ataque: %dd%d                   Ataque: %dd%d\n"
             " Armadura: %d                    Armadura: %d\n"
-            " Velocidad: %d                   Velocidad: %d",
-            jugador->vida, enemigo->vida, jugador->veces, jugador->ataque, enemigo->veces, enemigo->ataque, jugador->armadura, enemigo->armadura,
-            jugador->velocidad, enemigo->velocidad
-        );
-        fprintf(logFile, "Tu                            Enemigo\n "
-            "Vida: %d                       Vida: %d\n"
-            "Ataque: %dd%d                  Ataque: %dd%d\n"
-            "Armadura: %d                   Armadura: %d\n"
-            "Velocidad: %d                  Velocidad: %d",
-            jugador->vida, enemigo->vida, jugador->veces, jugador->ataque, enemigo->veces, enemigo->ataque, jugador->armadura, enemigo->armadura,
-            jugador->velocidad, enemigo->velocidad
-        );
+            " Velocidad: %d                   Velocidad: %d\n",
+            jugador->vida, enemigo->vida,
+            jugador->veces, jugador->ataque,
+            enemigo->veces, enemigo->ataque,
+            jugador->armadura, enemigo->armadura,
+            jugador->velocidad, enemigo->velocidad);
 
-        printf("\n*****************\n");
+        enviarTexto(buffer);
+        fprintf(logFile, "%s", buffer);
+
+        enviarTexto("*****************\n");
         fprintf(logFile, "\n*****************\n");
         sleep(1);
-        int armaduraIncial = jugador->armadura;
+        int armaduraInicial = jugador->armadura;
 
-        // Comprobar la velocidad para saber quien tiene turno primero
-        if(jugador->velocidad >= enemigo->velocidad){
-            printf("Eres mas rapido que tu rival\n");
-            sleep(1);
-            printf("Atacas primero\n");
+        if (jugador->velocidad >= enemigo->velocidad) {
+            enviarTexto("Eres mas rapido que tu rival\nAtacas primero\n");
             fprintf(logFile, "El jugador es mas rapido que el enemigo, ataca primero\n");
             sleep(1);
             turnoPersonaje(jugador, enemigo, logFile);
             if (enemigo->vida <= 0) {
-                printf("¡Has derrotado al %s!\n", enemigo->nombre);
-                fprintf(logFile, "\n++++++++++++++++++++++++++++++\n");
-                fprintf(logFile, "*  %s derrotado\n", enemigo->nombre);
-                fprintf(logFile, "++++++++++++++++++++++++++++++\n");
-                fprintf(logFile, "\n---------------------------------------------\n");
+                snprintf(buffer, sizeof(buffer), "\u00a1Has derrotado al %s!\n", enemigo->nombre);
+                enviarTexto(buffer);
+                fprintf(logFile, "\n++++++++++++++++++++++++++++++\n*  %s derrotado\n++++++++++++++++++++++++++++++\n\n---------------------------------------------\n", enemigo->nombre);
                 break;
             }
             turnoEnemigo(jugador, enemigo, logFile);
 
             if (jugador->vida <= 0) {
-                printf("Has sido derrotado!\n");
+                enviarTexto("Has sido derrotado!\n");
                 fprintf(logFile, "GAME OVER!\n");
                 salir();
                 break;
             }
-            
-
-        } else if (jugador->velocidad <= enemigo->velocidad){
-            printf("El enemigo es mas rapido que tu\n");
-            sleep(1);
-            printf("Atacara primero\n");
+        } else {
+            enviarTexto("El enemigo es mas rapido que tu\nAtacara primero\n");
             fprintf(logFile, "El enemigo es mas rapido que el jugador, el enemigo ataca primero\n");
             sleep(1);
             turnoEnemigo(jugador, enemigo, logFile);
             if (jugador->vida <= 0) {
-                printf("Has sido derrotado!\n");
+                enviarTexto("Has sido derrotado!\n");
                 fprintf(logFile, "GAME OVER!\n");
                 salir();
                 break;
             }
             turnoPersonaje(jugador, enemigo, logFile);
             if (enemigo->vida <= 0) {
-                printf("¡Has derrotado al %s!\n", enemigo->nombre);
-                fprintf(logFile, "\n++++++++++++++++++++++++++++++\n");
-                fprintf(logFile, "*  %s derrotado\n", enemigo->nombre);
-                fprintf(logFile, "++++++++++++++++++++++++++++++\n");
-                fprintf(logFile, "\n---------------------------------------------\n");
+                snprintf(buffer, sizeof(buffer), "\u00a1Has derrotado al %s!\n", enemigo->nombre);
+                enviarTexto(buffer);
+                fprintf(logFile, "\n++++++++++++++++++++++++++++++\n*  %s derrotado\n++++++++++++++++++++++++++++++\n\n---------------------------------------------\n", enemigo->nombre);
                 break;
             }
 
         }
-        
 
-        if (jugador->armadura != armaduraIncial){
-            jugador->armadura = armaduraIncial;
+
+        if (jugador->armadura != armaduraInicial) {
+            jugador->armadura = armaduraInicial;
         }
 
-        // Fin del turno del enemigo
+
         fprintf(logFile, "\n---------------------------------------------\n");
     }
 
@@ -124,48 +116,51 @@ void iniciarCombate(Clase *jugador, Enemigo *enemigo) {
 }
 
 void turnoPersonaje(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
-    printf("\nTurno del jugador\n");
+    enviarTexto("\nTurno del jugador\n");
     fprintf(logFile, "\nTurno del jugador\n");
     sleep(1);
-    
-    printf("1. Atacar\n2. Defender\n");
+
+    enviarTexto("1. Atacar\n2. Defender\n");
     int opcion;
     char c[10];
-    fgets(c, 10, stdin);
+    getInput(c, 10);
     if (c[strlen(c) - 1] == '\n') c[strlen(c) - 1] = '\0';
 
     sscanf(c, "%d", &opcion);
 
-    if (opcion == 1) { // Ataque
+    char buffer[256];
+    if (opcion == 1) {
         int danyo = lanzar_dado(jugador->veces, jugador->ataque) - enemigo->armadura;
         if (danyo < 0) danyo = 0;
         enemigo->vida -= danyo;
-        system("cls");
-        printf("Has hecho %d de daño al %s!\n", danyo, enemigo->nombre);
-        fprintf(logFile, "Has hecho %d de daño al %s!\n", danyo, enemigo->nombre);
-    } 
-    else if (opcion == 2) { // Defensa
+        snprintf(buffer, sizeof(buffer), "Has hecho %d de dan\u00f5 al %s!\n", danyo, enemigo->nombre);
+        enviarTexto(buffer);
+        fprintf(logFile, "%s", buffer);
+    } else if (opcion == 2) {
         jugador->armadura += 5;
-        system("cls");
-        printf("Vas a bloquear el siguiente ataque con %d de armadura\n", jugador->armadura);
-        fprintf(logFile, "Bloqueo con %d de armadura\n", jugador->armadura);
-    } else if (opcion == 4){
+        snprintf(buffer, sizeof(buffer), "Vas a bloquear el siguiente ataque con %d de armadura\n", jugador->armadura);
+        enviarTexto(buffer);
+        fprintf(logFile, "%s", buffer);
+    } else if (opcion == 4) {
         menuP();
     }
     sleep(1);
 }
 
 void turnoEnemigo(Clase *jugador, Enemigo *enemigo, FILE *logFile) {
-    printf("\nTurno del %s\n", enemigo->nombre);
-    fprintf(logFile, "\nTurno del %s\n", enemigo->nombre);
+    char buffer[256];
+    snprintf(buffer, sizeof(buffer), "\nTurno del %s\n", enemigo->nombre);
+    enviarTexto(buffer);
+    fprintf(logFile, "%s", buffer);
     sleep(1);
 
-    int danyo_enemigo = lanzar_dado(enemigo->veces, enemigo->ataque) - jugador->armadura;
-    if (danyo_enemigo < 0) danyo_enemigo = 0;
-    jugador->vida -= danyo_enemigo;
+    int danyo = lanzar_dado(enemigo->veces, enemigo->ataque) - jugador->armadura;
+    if (danyo < 0) danyo = 0;
+    jugador->vida -= danyo;
 
-    printf("El %s te ha hecho %d de daño.\n", enemigo->nombre, danyo_enemigo);
-    fprintf(logFile, "El %s te ha hecho %d de daño.\n", enemigo->nombre, danyo_enemigo);
+    snprintf(buffer, sizeof(buffer), "El %s te ha hecho %d de dan\u00f5.\n", enemigo->nombre, danyo);
+    enviarTexto(buffer);
+    fprintf(logFile, "%s", buffer);
     sleep(1);
 }
 
