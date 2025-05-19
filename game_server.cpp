@@ -1,7 +1,7 @@
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <winsock2.h>
+#include <cstdio>
 #include <stdio.h>
 #include "sqlite3.h"
 #include <iostream>
@@ -171,9 +171,10 @@ int main() {
         pj->pos = 0;
 
         snprintf(sendBuff, sizeof(sendBuff),
-            "\nPersonaje creado:\nNombre: %s\nClase ID: %d\nVida: %d\nArmadura: %d\nVelocidad: %d\nAtaque: %dd%d\n\n",
-            pj->nombre, claseID, pj->vida, pj->armadura, pj->velocidad, pj->veces, pj->ataque);
+        "\nPersonaje creado:\nNombre: %s\nClase ID: %d\nVida: %d\nArmadura: %d\nVelocidad: %d\nAtaque: %dd%d\n\n",
+        pj->nombre, (int)claseID, (int)pj->vida, (int)pj->armadura, (int)pj->velocidad, (int)pj->veces, (int)pj->ataque);
         send(comm_socket, sendBuff, strlen(sendBuff), 0);
+
 
         // Comenzar partida online
         inciarPartidaOnline(pj, comm_socket);
