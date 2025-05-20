@@ -202,3 +202,130 @@ Has hecho 9 de danõ al Esqueleto!
 ++++++++++++++++++++++++++++++
 
 ---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+ Tus estadisticas               Estadisticas del Enemigo
+ Vida: 13                       Vida: 10
+ Ataque: 3d5                   Ataque: 1d4
+ Armadura: 2                    Armadura: 5
+ Velocidad: 8                   Velocidad: 1
+
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 5 de danõ al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de danõ.
+
+---------------------------------------------
+
+*****************
+ Tus estadisticas               Estadisticas del Enemigo
+ Vida: 13                       Vida: 5
+ Ataque: 3d5                   Ataque: 1d4
+ Armadura: 2                    Armadura: 5
+ Velocidad: 8                   Velocidad: 1
+
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 9 de danõ al Esqueleto!
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Golem
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+ Tus estadisticas               Estadisticas del Enemigo
+ Vida: 13                       Vida: 7
+ Ataque: 3d5                   Ataque: 3d10
+ Armadura: 4                    Armadura: 1
+ Velocidad: 8                   Velocidad: 4
+
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 11 de danõ al Golem!
+
+++++++++++++++++++++++++++++++
+*  Golem derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Espectro Deambulante
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+ Tus estadisticas               Estadisticas del Enemigo
+ Vida: 18                       Vida: 13
+ Ataque: 3d5                   Ataque: 5d4
+ Armadura: 4                    Armadura: 5
+ Velocidad: 8                   Velocidad: 2
+
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 0 de danõ al Espectro Deambulante!
+
+Turno del Espectro Deambulante
+El Espectro Deambulante te ha hecho 13 de danõ.
+
+---------------------------------------------
+
+*****************
+ Tus estadisticas               Estadisticas del Enemigo
+ Vida: 5                       Vida: 13
+ Ataque: 3d5                   Ataque: 5d4
+ Armadura: 4                    Armadura: 5
+ Velocidad: 8                   Velocidad: 2
+
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Vas a bloquear el siguiente ataque con 9 de armadura
+
+Turno del Espectro Deambulante
+El Espectro Deambulante te ha hecho 4 de danõ.
+
+---------------------------------------------
+
+*****************
+ Tus estadisticas               Estadisticas del Enemigo
+ Vida: 1                       Vida: 13
+ Ataque: 3d5                   Ataque: 5d4
+ Armadura: 4                    Armadura: 5
+ Velocidad: 8                   Velocidad: 2
+
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 5 de danõ al Espectro Deambulante!
+
+Turno del Espectro Deambulante
+El Espectro Deambulante te ha hecho 10 de danõ.
+GAME OVER!
