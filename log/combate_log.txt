@@ -202,3 +202,46 @@ Has hecho 9 de danõ al Esqueleto!
 ++++++++++++++++++++++++++++++
 
 ---------------------------------------------
+
+++++++++++++++++++++++++++++++
++  Enemigo: Esqueleto
+++++++++++++++++++++++++++++++
+
+---------------------------------------------
+
+*****************
+ Tus estadisticas               Estadisticas del Enemigo
+ Vida: 13                       Vida: 10
+ Ataque: 3d5                   Ataque: 1d4
+ Armadura: 2                    Armadura: 5
+ Velocidad: 8                   Velocidad: 1
+
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 5 de danõ al Esqueleto!
+
+Turno del Esqueleto
+El Esqueleto te ha hecho 0 de danõ.
+
+---------------------------------------------
+
+*****************
+ Tus estadisticas               Estadisticas del Enemigo
+ Vida: 13                       Vida: 5
+ Ataque: 3d5                   Ataque: 1d4
+ Armadura: 2                    Armadura: 5
+ Velocidad: 8                   Velocidad: 1
+
+*****************
+El jugador es mas rapido que el enemigo, ataca primero
+
+Turno del jugador
+Has hecho 9 de danõ al Esqueleto!
+
+++++++++++++++++++++++++++++++
+*  Esqueleto derrotado
+++++++++++++++++++++++++++++++
+
+---------------------------------------------

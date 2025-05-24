@@ -5,6 +5,7 @@
 #include "datos.h"
 #include "personaje.h"
 #include "combate.h"
+#include "interfaz.h"
 
 static sqlite3 *db = NULL;
 
@@ -477,7 +478,7 @@ void partidasCargadas(int idJugador, Clase *clase) {
 
 void mostrarPartidasGuardadas() {
     if (!db) {
-        fprintf(stderr, "Error: La base de datos no está inicializada.\n");
+        enviarTexto("Error: La base de datos no est\u00e1 inicializada.\n");
         return;
     }
 
@@ -486,19 +487,24 @@ void mostrarPartidasGuardadas() {
     sqlite3_stmt *stmt;
     int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
     if (rc != SQLITE_OK) {
-        fprintf(stderr, "Error preparando consulta: %s\n", sqlite3_errmsg(db));
+        char buffer[128];
+        snprintf(buffer, sizeof(buffer), "Error preparando consulta: %s\n", sqlite3_errmsg(db));
+        enviarTexto(buffer);
         return;
     }
 
-    printf("Partidas guardadas:\n");
+    enviarTexto("Partidas guardadas:\n");
     while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
         int idJugador = sqlite3_column_int(stmt, 0);
         const char *nombre = (const char *)sqlite3_column_text(stmt, 1);
-        printf("- ID: %d | Nombre: %s\n", idJugador, nombre);
+        char buffer[128];
+        snprintf(buffer, sizeof(buffer), "- ID: %d | Nombre: %s\n", idJugador, nombre);
+        enviarTexto(buffer);
     }
 
     sqlite3_finalize(stmt);
 }
+
 
 
 void eliminarPartida(int idJugador) {

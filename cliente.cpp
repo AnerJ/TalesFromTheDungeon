@@ -26,7 +26,7 @@ int main() {
 
     if (connect(s, (struct sockaddr*)&server, sizeof(server)) < 0) return 1;
 
-    // ✅ Modo no bloqueante para poder leer en segundo plano
+    
     u_long modo = 1;
     ioctlsocket(s, FIONBIO, &modo);
 

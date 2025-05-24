@@ -17,6 +17,7 @@ void salir() {
     enviarTexto("TALES FROM THE DUNGEON\n");
     enviarTexto("=================================\n\n");
     enviarTexto("\n\nSaliendo....\n");
+    enviarTexto("<<FIN>>\n");
     sleep(5);
     cerrarBD();
     exit(0);
@@ -86,6 +87,7 @@ void cargarPartida() {
 
     Clase *claseC = (Clase *)malloc(sizeof(Clase));
     mostrarPartidasGuardadas();
+    
     char nombreP[10];
     int eleccion;
 
