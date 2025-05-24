@@ -38,7 +38,22 @@ int main() {
         if (bytes > 0) {
             recvBuff[bytes] = '\0';
             std::cout << recvBuff << std::flush;
+        } else if (bytes == 0) {
+            std::cout << "\n[INFO] El servidor cerró la conexión.\n";
+            break;
+        }else {
+            int error = WSAGetLastError();
+            if (error == WSAEWOULDBLOCK) {
+                // No pasa nada, no hay datos disponibles todavía
+            } else if (error == WSAECONNRESET) {
+                std::cerr << "\nConexion cerrada por el servidor.\n";
+                break;
+            } else {
+                std::cerr << "\n[ERROR] Error inesperado en recv(): " << error << "\n";
+                break;
+            }
         }
+
 
         // 2. Si el usuario pulsa Enter, leer input
         if (_kbhit()) {
