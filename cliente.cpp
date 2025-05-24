@@ -45,7 +45,11 @@ int main() {
             std::getline(std::cin, comando);
             if (!comando.empty()) {
                 send(s, comando.c_str(), comando.size() + 1, 0);
-                if (comando == "salir") break;
+                if (comando == "salir"){
+                    exit(0);
+                    break;
+                }
+                
             }
         }
 
