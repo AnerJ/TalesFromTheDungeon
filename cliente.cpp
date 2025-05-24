@@ -53,7 +53,7 @@ int main() {
             }
         }
 
-        Sleep(10);  // evitar saturar CPU
+        Sleep(10);  
     }
 
     closesocket(s);

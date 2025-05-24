@@ -17,7 +17,7 @@ void salir() {
     enviarTexto("TALES FROM THE DUNGEON\n");
     enviarTexto("=================================\n\n");
     enviarTexto("\n\nSaliendo....\n");
-    enviarTexto("<<FIN>>\n");
+    enviarTexto("La conexion con el servidor ha finalizado, puedes cerrar esta pestaña\n");
     sleep(5);
     cerrarBD();
     exit(0);
